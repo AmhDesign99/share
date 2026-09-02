@@ -1,105 +1,101 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0b1220" />
-<title>LAN Share — P2P File Transfer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="LAN Share — berbagi folder dan file langsung antar perangkat via WebRTC">
+<title>LAN Share — P2P Shared Folder</title>
 <style>
-:root{--bg:#07101d;--panel:#0e1929;--panel2:#121f33;--line:#22324b;--text:#f5f7fb;--muted:#95a5bd;--accent:#56b3ff;--good:#52d69b;--danger:#ff6577;--shadow:0 20px 70px #0008}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#123a5b 0,#07101d 40%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}main{max-width:1040px;margin:auto;padding:24px 16px 44px}.brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}.logo{width:48px;height:48px;border:1px solid #ffffff1f;border-radius:16px;display:grid;place-items:center;background:#ffffff09;box-shadow:var(--shadow);font-size:23px}.brand h1{font-size:22px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.hero{padding:24px;border:1px solid var(--line);background:linear-gradient(140deg,#0e1a2b,#0b1422);border-radius:28px;box-shadow:var(--shadow);margin-bottom:16px}.badge{display:inline-flex;gap:8px;align-items:center;border:1px solid #52d69b44;color:#9be8c7;background:#52d69b12;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}.dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 15px var(--good)}h2{font-size:30px;line-height:1.12;margin:14px 0 9px}.hero p{color:var(--muted);max-width:700px;line-height:1.6;margin:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{border:1px solid var(--line);background:#0d1828e8;border-radius:24px;padding:20px}.card h3{margin:0 0 7px;font-size:17px}.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 16px}.row{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:12px 15px;background:var(--accent);color:#061322;font-weight:800;cursor:pointer}.btn.secondary{background:#ffffff0b;color:var(--text);border:1px solid var(--line)}.btn.danger{background:#ff657719;color:#ff98a4;border:1px solid #ff657744}.btn:disabled{opacity:.4;cursor:not-allowed}.drop{border:1px dashed #4b6586;padding:20px;border-radius:18px;text-align:center;color:var(--muted);background:#091423}.drop.drag{border-color:var(--accent);background:#56b3ff0b}.drop strong{display:block;color:var(--text);margin-bottom:5px}.files{margin-top:14px;display:grid;gap:8px}.file{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:#091523;padding:11px;border-radius:14px}.file .name{min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:11px;color:var(--muted)}.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted)}textarea{width:100%;min-height:145px;resize:vertical;border-radius:16px;border:1px solid var(--line);background:#07101d;color:#dfe8f4;padding:12px;font:12px ui-monospace,monospace}.code{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.45}.status{margin-top:12px;padding:11px 13px;border-radius:14px;background:#091523;border:1px solid var(--line);font-size:13px;color:#c7d5e6}.ok{color:#93e6c1}.warn{color:#f2ca71}.peerbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px}.hidden{display:none!important}footer{text-align:center;color:#6f7e94;font-size:11px;padding:18px 0} .steps{display:grid;gap:8px;margin-top:12px}.step{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#c7d5e6}.n{width:22px;height:22px;flex:0 0 22px;display:grid;place-items:center;border-radius:8px;background:#ffffff0a;border:1px solid var(--line);font-size:11px}
-@media(max-width:760px){main{padding:15px 12px 35px}.grid{grid-template-columns:1fr}.hero{padding:19px}.card{padding:17px}h2{font-size:26px}.file .pill{display:none}}
+:root{--bg:#07101d;--panel:#0e1929;--panel2:#111f32;--line:#263852;--text:#f6f8fc;--muted:#94a5bd;--accent:#67b7ff;--good:#55d69d;--warn:#f2c96b;--danger:#ff7182;--shadow:0 24px 80px #0009}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% -10%,#15415f 0,#07101d 38%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}main{width:min(1040px,100%);margin:auto;padding:18px 14px 42px}.brand{display:flex;align-items:center;gap:12px;margin:4px 2px 18px}.logo{width:48px;height:48px;border:1px solid #ffffff18;border-radius:16px;background:#ffffff09;display:grid;place-items:center;font-size:22px;box-shadow:var(--shadow)}.brand h1{font-size:20px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}.hero{border:1px solid var(--line);background:linear-gradient(140deg,#0f1d30,#0a1422);border-radius:28px;padding:21px;box-shadow:var(--shadow)}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #55d69d3b;background:#55d69d10;color:#a6eed0;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}.dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 14px var(--good)}h2{font-size:30px;line-height:1.08;margin:13px 0 8px}.hero p{margin:0;color:var(--muted);line-height:1.6;max-width:760px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}.card{border:1px solid var(--line);background:#0d1828e8;border-radius:24px;padding:18px}.card h3{font-size:17px;margin:0 0 6px}.sub{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 14px}.row{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:12px 14px;background:var(--accent);color:#061321;font-weight:850;cursor:pointer}.btn.secondary{background:#ffffff0b;color:var(--text);border:1px solid var(--line)}.btn.danger{background:#ff718215;color:#ff9ca8;border:1px solid #ff718242}.btn:disabled{opacity:.42;cursor:not-allowed}.status{margin-top:13px;padding:11px 13px;border-radius:14px;background:#081423;border:1px solid var(--line);font-size:13px;color:#cbd7e6}.status.ok{color:#99e9c6;border-color:#55d69d35}.status.warn{color:#f7d584;border-color:#f2c96b35}.status.err{color:#ff9eaa;border-color:#ff718235}.codebox{margin-top:12px;border:1px dashed #49617e;background:#091321;border-radius:18px;padding:16px;text-align:center}.qr{display:block;width:min(260px,70vw);aspect-ratio:1;margin:0 auto 12px;background:white;border-radius:16px;padding:10px}.hint{font-size:12px;color:var(--muted);line-height:1.5}.drop{border:1px dashed #4c6789;padding:18px;border-radius:18px;text-align:center;background:#081321;color:var(--muted);cursor:pointer}.drop strong{display:block;color:var(--text);margin-bottom:5px}.drop.drag{border-color:var(--accent);background:#67b7ff10}.files{display:grid;gap:8px;margin-top:13px;max-height:340px;overflow:auto}.file{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:#091523;padding:10px 11px;border-radius:14px}.file .name{flex:1;min-width:0}.file .name>div:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:11px;color:var(--muted);margin-top:3px}.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted)}.progress{height:8px;background:#ffffff0b;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-top:11px}.progress>i{display:block;height:100%;width:0;background:var(--accent);transition:width .08s}.steps{display:grid;gap:9px}.step{display:flex;gap:10px;color:#cbd7e6;font-size:13px;line-height:1.45}.num{width:23px;height:23px;flex:0 0 23px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line);background:#ffffff08;font-size:11px}textarea{width:100%;min-height:130px;background:#07101d;border:1px solid var(--line);color:#dfe7f2;border-radius:15px;padding:11px;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#02060dbd;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:15px;z-index:50}.modalbox{width:min(520px,100%);background:#0d1828;border:1px solid var(--line);border-radius:24px;padding:17px;box-shadow:var(--shadow)}.modalhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}.modalhead h3{margin:0}.scanner{position:relative;overflow:hidden;border-radius:18px;background:#000;aspect-ratio:4/3}.scanner video,.scanner canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.scanner canvas{display:none}.scanframe{position:absolute;inset:14%;border:2px solid #fff8;border-radius:20px;box-shadow:0 0 0 999px #0003}.close{border:1px solid var(--line);background:#ffffff08;color:var(--text);border-radius:12px;padding:8px 11px;cursor:pointer}footer{text-align:center;color:#64758c;font-size:11px;margin-top:16px}
+@media(max-width:760px){main{padding:12px 11px 34px}.grid{grid-template-columns:1fr}.hero{padding:18px}h2{font-size:26px}.card{padding:16px}.btn{flex:1;min-width:135px}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
 </head>
 <body>
 <main>
-  <header class="brand"><div class="logo">↔</div><div><h1>LAN Share</h1><p>Browser-only • P2P • tanpa upload ke GitHub</p></div></header>
-  <section class="hero">
-    <span class="badge"><span class="dot"></span> File tidak melewati server</span>
-    <h2>Kirim file langsung antar perangkat.</h2>
-    <p>GitHub hanya menjadi tempat membuka aplikasi. Setelah dua perangkat dipasangkan, file berjalan melalui WebRTC DataChannel secara langsung. Tidak perlu instal APK.</p>
-    <div class="status" id="status">Belum terhubung. Pilih <b>Buat Sesi</b> di perangkat pengirim.</div>
-  </section>
+<header class="brand"><div class="logo">↔</div><div><h1>LAN Share</h1><p>Browser-only • Shared Folder • P2P WebRTC</p></div></header>
+<section class="hero"><span class="badge"><span class="dot"></span> File tidak disimpan di GitHub</span><h2>Berbagi folder langsung antar perangkat.</h2><p>Buka halaman yang sama di dua perangkat. Pairing menggunakan QR Code, lalu file dikirim melalui WebRTC DataChannel. GitHub hanya menjadi tempat halaman aplikasinya.</p><div id="status" class="status">Belum terhubung. Mulai dari <b>Buat Sesi</b> di perangkat pengirim.</div></section>
 
-  <section class="grid">
-    <div class="card">
-      <h3>Perangkat Pengirim</h3>
-      <p class="sub">Buat sesi lalu kirim kode pairing ke perangkat penerima. Pairing ini dirancang agar bisa dilakukan tanpa layanan cloud.</p>
-      <div class="row">
-        <button class="btn" id="createOffer">Buat Sesi</button>
-        <button class="btn secondary hidden" id="copyOffer">Salin Kode</button>
-      </div>
-      <div id="offerBox" class="hidden" style="margin-top:14px">
-        <textarea id="offerText" readonly></textarea>
-        <div class="code">Kirim kode di atas ke perangkat penerima. Untuk jaringan yang benar-benar tanpa internet, transfer kode secara manual (copy/paste, QR eksternal, atau media lokal).</div>
-      </div>
-      <div id="answerInputBox" class="hidden" style="margin-top:14px">
-        <p class="sub" style="margin-bottom:8px">Tempel kode jawaban dari perangkat penerima.</p>
-        <textarea id="answerText" placeholder="Tempel kode answer di sini..."></textarea>
-        <button class="btn" id="applyAnswer" style="margin-top:9px">Hubungkan</button>
-      </div>
-    </div>
+<section class="grid">
+  <div class="card">
+    <h3>1. Pengirim</h3><p class="sub">Buat sesi, lalu tampilkan QR Code. Penerima tinggal scan.</p>
+    <div class="row"><button class="btn" id="createOffer">Buat Sesi</button><button class="btn secondary hidden" id="showOfferQr">Tampilkan QR</button></div>
+    <div id="offerBox" class="hidden" style="margin-top:13px"><textarea id="offerText" readonly></textarea></div>
+    <div id="answerScanArea" class="hidden" style="margin-top:12px"><p class="sub" style="margin-bottom:8px">Setelah penerima membuat QR jawaban, tekan tombol di bawah untuk memindai.</p><button class="btn secondary" id="scanAnswer">Scan QR Jawaban</button></div>
+  </div>
+  <div class="card">
+    <h3>2. Penerima</h3><p class="sub">Scan QR dari pengirim. Setelah itu tampilkan QR jawaban untuk pengirim.</p>
+    <div class="row"><button class="btn" id="scanOffer">Scan QR Pengirim</button><button class="btn secondary hidden" id="showAnswerQr">Tampilkan QR Jawaban</button></div>
+    <div id="answerBox" class="hidden" style="margin-top:13px"><textarea id="answerText" readonly></textarea></div>
+  </div>
+</section>
 
-    <div class="card">
-      <h3>Perangkat Penerima</h3>
-      <p class="sub">Tempel kode sesi dari pengirim. Browser akan membuat koneksi P2P tanpa server file.</p>
-      <textarea id="remoteOffer" placeholder="Tempel kode sesi dari pengirim..."></textarea>
-      <div class="row" style="margin-top:9px">
-        <button class="btn" id="createAnswer">Buat Jawaban</button>
-        <button class="btn secondary hidden" id="copyAnswer">Salin Jawaban</button>
-      </div>
-      <div id="answerBox" class="hidden" style="margin-top:14px">
-        <textarea id="localAnswer" readonly></textarea>
-        <div class="code">Kirim kode jawaban ini kembali ke pengirim.</div>
-      </div>
-    </div>
-  </section>
+<section class="card" style="margin-top:15px">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><h3>3. Shared Folder</h3><p class="sub">Pilih satu folder atau banyak file. Struktur folder disimpan dari <code>webkitRelativePath</code> bila tersedia.</p></div><span class="pill" id="peerState">OFFLINE</span></div>
+  <div class="row" style="margin-bottom:10px"><button class="btn" id="pickFolder">📁 Pilih Folder</button><button class="btn secondary" id="pickFiles">📄 Pilih File</button><input id="folderPicker" type="file" webkitdirectory directory multiple class="hidden"><input id="filePicker" type="file" multiple class="hidden"></div>
+  <div class="drop" id="drop"><strong>Tap untuk memilih file</strong>Desktop: tarik file atau folder ke sini</div>
+  <div class="row" style="margin-top:10px"><button class="btn" id="sendFiles" disabled>Kirim Sekarang</button><button class="btn secondary" id="clearFiles">Bersihkan</button></div>
+  <div id="sendProgress" class="progress hidden"><i></i></div><div id="sendInfo" class="hint" style="margin-top:6px"></div>
+  <div class="files" id="fileList"></div>
+</section>
 
-  <section class="card" style="margin-top:16px">
-    <div style="display:flex;justify-content:space-between;gap:10px;align-items:start;flex-wrap:wrap">
-      <div><h3>File Transfer</h3><p class="sub">Koneksi harus berstatus terhubung sebelum file dikirim.</p></div>
-      <span class="pill" id="peerState">OFFLINE</span>
-    </div>
-    <div class="drop" id="drop"><strong>Tap untuk memilih file</strong>atau tarik file ke sini dari laptop/desktop<input id="picker" type="file" multiple class="hidden"></div>
-    <div class="peerbar"><button class="btn" id="sendFiles" disabled>Kirim File Terpilih</button><button class="btn secondary" id="clearFiles">Bersihkan</button></div>
-    <div class="files" id="fileList"></div>
-  </section>
-
-  <section class="grid" style="margin-top:16px">
-    <div class="card"><h3>Alur paling hemat kuota</h3><div class="steps"><div class="step"><span class="n">1</span><span>Buka halaman ini dari GitHub Pages di kedua HP.</span></div><div class="step"><span class="n">2</span><span>Pairing menggunakan kode offer/answer.</span></div><div class="step"><span class="n">3</span><span>Setelah tersambung, file dikirim P2P.</span></div></div></div>
-    <div class="card"><h3>Penting</h3><p class="sub">GitHub Pages membutuhkan internet saat membuka halaman. Tetapi <b>file tidak di-upload ke GitHub</b>. Untuk benar-benar nol internet setelah halaman sudah terbuka, koneksi kedua perangkat tetap perlu berhasil secara lokal dan kode pairing harus dipertukarkan secara manual.</p></div>
-  </section>
-  <footer>LAN Share • Source code dapat ditempatkan di GitHub Pages</footer>
+<section class="grid">
+  <div class="card"><h3>4. File diterima</h3><p class="sub">File yang masuk muncul di sini. Pada browser yang mendukung File System Access API, kamu bisa memilih folder tujuan agar subfolder dibuat otomatis.</p><div class="row"><button class="btn secondary" id="chooseSaveDir">📂 Pilih Folder Tujuan</button><button class="btn secondary" id="saveAll" disabled>Simpan Semua</button></div><div class="files" id="receivedList"></div></div>
+  <div class="card"><h3>Alur paling hemat kuota</h3><div class="steps"><div class="step"><span class="num">1</span><span>Buka GitHub Pages di kedua HP.</span></div><div class="step"><span class="num">2</span><span>Pairing dua arah dengan QR; QR hanya membawa informasi koneksi.</span></div><div class="step"><span class="num">3</span><span>Setelah <b>CONNECTED</b>, isi file berjalan melalui koneksi P2P.</span></div></div><div class="status warn" style="margin-top:13px">Catatan: membuka GitHub Pages dan library QR tetap memerlukan internet. Transfer file tidak diunggah ke GitHub.</div></div>
+</section>
+<footer>LAN Share • GitHub Pages + WebRTC • tidak membutuhkan APK</footer>
 </main>
+
+<div id="modal" class="modal hidden"><div class="modalbox"><div class="modalhead"><h3 id="modalTitle">QR Pairing</h3><button class="close" id="closeModal">Tutup</button></div><div id="qrView" class="hidden"><canvas id="qrCanvas" class="qr"></canvas><div id="qrHint" class="hint" style="text-align:center"></div></div><div id="scanView" class="hidden"><div class="scanner"><video id="video" playsinline></video><canvas id="scanCanvas"></canvas><div class="scanframe"></div></div><p id="scanHint" class="hint" style="margin-top:10px">Arahkan kamera ke QR Code.</p></div></div></div>
+
 <script>
-let pc=null, dc=null, selected=[]; const CHUNK=64*1024;
-const $=id=>document.getElementById(id); const status=$('status'); const state=$('peerState');
-function setStatus(t,kind=''){status.innerHTML=t; status.className='status '+kind;}
-function base64urlEncode(obj){return btoa(unescape(encodeURIComponent(JSON.stringify(obj)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
-function base64urlDecode(s){s=s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4)s+='='; return JSON.parse(decodeURIComponent(escape(atob(s))));}
-function makePC(){
-  if(pc) pc.close();
-  pc=new RTCPeerConnection({iceServers:[]});
-  pc.onconnectionstatechange=()=>{let s=pc.connectionState; state.textContent=s.toUpperCase(); state.style.color=s==='connected'?'#52d69b':'#95a5bd'; if(s==='connected'){setStatus('Terhubung langsung. File akan dikirim melalui koneksi P2P.','ok');$('sendFiles').disabled=false} else if(s==='failed'){setStatus('Koneksi gagal. Pastikan kedua perangkat berada pada jaringan lokal yang sama dan pairing diulang.','warn');$('sendFiles').disabled=true}};
-  pc.ondatachannel=e=>setupChannel(e.channel);
-  return pc;
-}
-function setupChannel(ch){dc=ch; dc.binaryType='arraybuffer'; dc.onopen=()=>{$('peerState').textContent='CONNECTED';$('sendFiles').disabled=false;setStatus('Terhubung langsung. File akan dikirim melalui koneksi P2P.','ok')};dc.onclose=()=>{$('peerState').textContent='CLOSED';$('sendFiles').disabled=true};dc.onmessage=handleMessage}
+let pc=null,dc=null,selected=[],received=[],saveDir=null,scanStream=null,scanTimer=null;
+const CHUNK=64*1024, MAX_BUFFER=4*1024*1024;
+const $=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function fmt(n){if(n<1024)return n+' B';const u=['KB','MB','GB'];let i=-1;do{n/=1024;i++}while(n>=1024&&i<u.length-1);return n.toFixed(n>10?0:1)+' '+u[i]}
+function setStatus(t,k=''){const el=$('status');el.innerHTML=t;el.className='status '+k}
+function b64e(obj){return btoa(unescape(encodeURIComponent(JSON.stringify(obj)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return JSON.parse(decodeURIComponent(escape(atob(s))))}
+function waitIce(x){if(x.iceGatheringState==='complete')return Promise.resolve();return new Promise(r=>{const f=()=>{if(x.iceGatheringState==='complete'){x.removeEventListener('icegatheringstatechange',f);r()}};x.addEventListener('icegatheringstatechange',f);setTimeout(r,5000)})}
+function makePC(){if(pc)try{pc.close()}catch{};pc=new RTCPeerConnection({iceServers:[]});pc.onconnectionstatechange=()=>{const s=pc.connectionState; $('peerState').textContent=s.toUpperCase(); if(s==='connected'){setStatus('✅ Terhubung langsung. Data file tidak melewati GitHub.','ok');$('sendFiles').disabled=false}else if(s==='failed'){setStatus('Koneksi gagal. Ulangi pairing dan pastikan kedua perangkat berada pada jaringan yang sama.','err');$('sendFiles').disabled=true}};pc.ondatachannel=e=>setupChannel(e.channel);return pc}
+function setupChannel(ch){dc=ch;dc.binaryType='arraybuffer';dc.onopen=()=>{setStatus('✅ CONNECTED — siap berbagi folder/file.','ok');$('sendFiles').disabled=false};dc.onclose=()=>{ $('peerState').textContent='CLOSED';$('sendFiles').disabled=true};dc.onmessage=handleMessage}
+function sendJson(o){if(dc?.readyState==='open')dc.send(JSON.stringify(o))}
+
+async function createOffer(){makePC();const ch=pc.createDataChannel('files',{ordered:true});setupChannel(ch);const offer=await pc.createOffer();await pc.setLocalDescription(offer);await waitIce(pc);const payload={app:'lan-share',v:2,type:'offer',sdp:pc.localDescription.sdp};const code=b64e(payload);$('offerText').value=code;$('offerBox').classList.remove('hidden');$('showOfferQr').classList.remove('hidden');$('answerScanArea').classList.remove('hidden');setStatus('Sesi dibuat. Tampilkan QR lalu tunggu jawaban penerima.','warn');showQR(code,'Scan QR ini dari HP penerima','Pengirim')}
+async function acceptOffer(code){try{const o=b64d(code.trim());if(o.app!=='lan-share'||o.type!=='offer')throw 0;makePC();await pc.setRemoteDescription({type:'offer',sdp:o.sdp});const ans=await pc.createAnswer();await pc.setLocalDescription(ans);await waitIce(pc);const answer=b64e({app:'lan-share',v:2,type:'answer',sdp:pc.localDescription.sdp});$('answerText').value=answer;$('answerBox').classList.remove('hidden');$('showAnswerQr').classList.remove('hidden');setStatus('✅ QR jawaban siap. Tampilkan ke HP pengirim.','warn');showQR(answer,'Scan QR ini kembali dari HP pengirim','Jawaban') }catch(e){setStatus('QR sesi tidak valid.','err')}}
+async function acceptAnswer(code){try{const a=b64d(code.trim());if(a.app!=='lan-share'||a.type!=='answer')throw 0;await pc.setRemoteDescription({type:'answer',sdp:a.sdp});setStatus('Jawaban diterapkan. Menunggu CONNECTED...','warn')}catch(e){setStatus('QR jawaban tidak valid.','err')}}
+
+function showModal(){ $('modal').classList.remove('hidden') }function hideModal(){stopScan();$('modal').classList.add('hidden')}
+$('closeModal').onclick=hideModal;$('createOffer').onclick=createOffer;$('showOfferQr').onclick=()=>showQR($('offerText').value,'Scan QR ini dari HP penerima','Pengirim');$('showAnswerQr').onclick=()=>showQR($('answerText').value,'Scan QR ini kembali dari HP pengirim','Penerima');
+function showQR(text,hint,title){showModal();$('modalTitle').textContent=title;$('scanView').classList.add('hidden');$('qrView').classList.remove('hidden');$('qrHint').textContent=hint;const c=$('qrCanvas');if(window.QRCode){QRCode.toCanvas(c,text,{errorCorrectionLevel:'M',width:520,margin:2},e=>{if(e){$('qrHint').textContent='Gagal membuat QR. Gunakan kode manual.'}})}else{$('qrHint').textContent='Library QR belum siap. Muat ulang halaman lalu coba lagi.'}}
+
+$('scanOffer').onclick=()=>openScanner('offer');$('scanAnswer').onclick=()=>openScanner('answer');
+async function openScanner(kind){showModal();$('modalTitle').textContent=kind==='offer'?'Scan QR Pengirim':'Scan QR Jawaban';$('qrView').classList.add('hidden');$('scanView').classList.remove('hidden');$('scanHint').textContent='Meminta izin kamera…';try{if(!navigator.mediaDevices?.getUserMedia)throw Error('camera');scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});const v=$('video');v.srcObject=scanStream;await v.play();$('scanHint').textContent='Arahkan QR ke kotak. Setelah terdeteksi, scanner berhenti otomatis.';scanLoop(kind)}catch(e){$('scanHint').textContent='Kamera tidak bisa diakses. Gunakan browser yang mendukung kamera dan izinkan akses kamera, atau gunakan pairing manual pada versi berikutnya.'}}
+function stopScan(){if(scanTimer){cancelAnimationFrame(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}}
+function scanLoop(kind){const v=$('video'),c=$('scanCanvas'),ctx=c.getContext('2d',{willReadFrequently:true});if(v.readyState<2){scanTimer=requestAnimationFrame(()=>scanLoop(kind));return}const w=v.videoWidth,h=v.videoHeight;if(!w||!h){scanTimer=requestAnimationFrame(()=>scanLoop(kind));return}c.width=w;c.height=h;ctx.drawImage(v,0,0,w,h);if(window.jsQR){const img=ctx.getImageData(0,0,w,h);const code=jsQR(img.data,w,h,{inversionAttempts:'attemptBoth'});if(code?.data){stopScan();hideModal();kind==='offer'?acceptOffer(code.data):acceptAnswer(code.data);return}}scanTimer=requestAnimationFrame(()=>scanLoop(kind))}
+
+function addFiles(files){selected=[...files];renderFiles()}
+$('pickFolder').onclick=()=>{if('showDirectoryPicker' in window){$('folderPicker').click()}else $('folderPicker').click()};$('pickFiles').onclick=()=>$('filePicker').click();$('folderPicker').onchange=e=>addFiles(e.target.files);$('filePicker').onchange=e=>addFiles(e.target.files);
+const drop=$('drop');drop.onclick=()=>$('filePicker').click();drop.ondragover=e=>{e.preventDefault();drop.classList.add('drag')};drop.ondragleave=()=>drop.classList.remove('drag');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('drag');addFiles(e.dataTransfer.files)};
+$('clearFiles').onclick=()=>{selected=[];$('filePicker').value='';$('folderPicker').value='';renderFiles()};
+function renderFiles(){$('fileList').innerHTML=selected.map((f,i)=>`<div class="file"><div class="name"><div>📄 ${esc(f.webkitRelativePath||f.name)}</div><div class="meta">${fmt(f.size)}</div></div><button class="btn danger" onclick="removeSelected(${i})">×</button></div>`).join('');$('sendFiles').disabled=!(selected.length&&dc?.readyState==='open')}
+window.removeSelected=i=>{selected.splice(i,1);renderFiles()};
+
+async function sendOne(file,index,total){const id=crypto.randomUUID(),path=file.webkitRelativePath||file.name;sendJson({type:'start',id,name:file.name,path,size:file.size,mime:file.type||'application/octet-stream',index,total});let sent=0;for(let off=0;off<file.size;off+=CHUNK){const ab=await file.slice(off,off+CHUNK).arrayBuffer();while(dc.bufferedAmount>MAX_BUFFER)await new Promise(r=>setTimeout(r,25));dc.send(ab);sent+=ab.byteLength;const pct=((index+(sent/file.size))/total)*100;$('sendProgress').classList.remove('hidden');$('sendProgress').firstElementChild.style.width=pct+'%';$('sendInfo').textContent=`Mengirim ${index+1}/${total}: ${path} — ${fmt(sent)} / ${fmt(file.size)}`}sendJson({type:'end',id})}
+$('sendFiles').onclick=async()=>{if(!dc||dc.readyState!=='open'){setStatus('Belum CONNECTED.','warn');return}for(let i=0;i<selected.length;i++)await sendOne(selected[i],i,selected.length);$('sendInfo').textContent=`Selesai mengirim ${selected.length} item.`;setStatus('✅ Semua file selesai dikirim.','ok')};
+
 let rx={};
-function sendJson(o){dc.send(JSON.stringify(o))}
-async function waitIce(pc){if(pc.iceGatheringState==='complete')return; await new Promise(resolve=>{let f=()=>{if(pc.iceGatheringState==='complete'){pc.removeEventListener('icegatheringstatechange',f);resolve()}};pc.addEventListener('icegatheringstatechange',f);setTimeout(resolve,4000)});}
-$('createOffer').onclick=async()=>{makePC(); const ch=pc.createDataChannel('files',{ordered:true}); setupChannel(ch); const offer=await pc.createOffer(); await pc.setLocalDescription(offer); await waitIce(pc); const payload={t:'lan-share',v:1,s:pc.localDescription.sdp}; $('offerText').value=base64urlEncode(payload); $('offerBox').classList.remove('hidden');$('answerInputBox').classList.remove('hidden');$('copyOffer').classList.remove('hidden');setStatus('Sesi dibuat. Salin kode ke perangkat penerima.','warn');};
-$('createAnswer').onclick=async()=>{try{let o=base64urlDecode($('remoteOffer').value.trim()); if(o.t!=='lan-share')throw Error(); makePC(); await pc.setRemoteDescription({type:'offer',sdp:o.s}); const ans=await pc.createAnswer(); await pc.setLocalDescription(ans); await waitIce(pc); $('localAnswer').value=base64urlEncode({t:'lan-answer',v:1,s:pc.localDescription.sdp});$('answerBox').classList.remove('hidden');$('copyAnswer').classList.remove('hidden');setStatus('Jawaban siap. Kirim kembali ke perangkat pengirim.','warn');}catch(e){setStatus('Kode sesi tidak valid.','warn')}};
-$('applyAnswer').onclick=async()=>{try{let a=base64urlDecode($('answerText').value.trim()); if(a.t!=='lan-answer')throw Error(); await pc.setRemoteDescription({type:'answer',sdp:a.s}); setStatus('Jawaban diterapkan. Menunggu koneksi P2P...','warn')}catch(e){setStatus('Kode jawaban tidak valid.','warn')}};
-async function copy(id){await navigator.clipboard.writeText($(id).value);setStatus('Kode berhasil disalin.','ok')}
-$('copyOffer').onclick=()=>copy('offerText');$('copyAnswer').onclick=()=>copy('localAnswer');
-function formatSize(n){if(n<1024)return n+' B';let u=['KB','MB','GB'];let i=-1;do{n/=1024;i++}while(n>=1024&&i<u.length-1);return n.toFixed(n>10?0:1)+' '+u[i]}
-function render(){ $('fileList').innerHTML=selected.map((f,i)=>`<div class="file"><div class="name">📄 ${escapeHtml(f.name)}<div class="meta">${formatSize(f.size)}</div></div><button class="btn danger" onclick="removeFile(${i})">×</button></div>`).join('')}
-function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
-window.removeFile=i=>{selected.splice(i,1);render()}; $('picker').onchange=e=>{selected=[...e.target.files];render()}; const drop=$('drop'); drop.onclick=e=>{if(e.target!==$('picker'))$('picker').click()}; drop.ondragover=e=>{e.preventDefault();drop.classList.add('drag')};drop.ondragleave=()=>drop.classList.remove('drag');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('drag');selected=[...e.dataTransfer.files];render()};$('clearFiles').onclick=()=>{selected=[];$('picker').value='';render()};
-async function sendFile(f){let id=crypto.randomUUID(), total=f.size, sent=0; sendJson({type:'start',id,name:f.name,size:total,mime:f.type}); for(let off=0;off<total;off+=CHUNK){let ab=await f.slice(off,off+CHUNK).arrayBuffer(); while(dc.bufferedAmount>4*1024*1024) await new Promise(r=>setTimeout(r,20)); dc.send(ab); sent+=ab.byteLength; } sendJson({type:'end',id});}
-$('sendFiles').onclick=async()=>{if(!dc||dc.readyState!=='open'){setStatus('Belum ada koneksi.','warn');return} for(const f of selected){setStatus('Mengirim <b>'+escapeHtml(f.name)+'</b>...','ok');await sendFile(f)} setStatus('Semua file selesai dikirim.','ok')};
-function handleMessage(ev){if(typeof ev.data==='string'){let m;try{m=JSON.parse(ev.data)}catch{return} if(m.type==='start'){rx[m.id]={parts:[],name:m.name,size:m.size,mime:m.mime}; setStatus('Menerima <b>'+escapeHtml(m.name)+'</b>...','ok')} if(m.type==='end'){let x=rx[m.id];if(!x)return;let blob=new Blob(x.parts,{type:x.mime||'application/octet-stream'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=x.name;a.textContent='⬇ '+x.name+' ('+formatSize(blob.size)+')';a.style.display='block';a.style.marginTop='10px';a.style.color='#56b3ff';$('fileList').appendChild(a);delete rx[m.id];setStatus('File diterima. Ketuk nama file untuk menyimpan.','ok')}} else {let ids=Object.keys(rx);if(ids.length)rx[ids[ids.length-1]].parts.push(ev.data)}}
-render();
+function handleMessage(ev){if(typeof ev.data==='string'){let m;try{m=JSON.parse(ev.data)}catch{return}if(m.type==='start'){rx[m.id]={parts:[],name:m.name,path:m.path||m.name,size:m.size,mime:m.mime};setStatus(`⬇️ Menerima <b>${esc(m.path||m.name)}</b>…`,'ok');$('sendInfo').textContent=`Menerima: ${m.path||m.name}`;return}if(m.type==='end'){const x=rx[m.id];if(!x)return;const blob=new Blob(x.parts,{type:x.mime});const item={name:x.name,path:x.path,size:blob.size,blob};received.push(item);delete rx[m.id];renderReceived();setStatus(`✅ Diterima: ${esc(x.path)}`,'ok')}}else{const keys=Object.keys(rx);if(keys.length)rx[keys[keys.length-1]].parts.push(ev.data)}}
+function renderReceived(){$('receivedList').innerHTML=received.map((x,i)=>`<div class="file"><div class="name"><div>📥 ${esc(x.path)}</div><div class="meta">${fmt(x.size)}</div></div><button class="btn secondary" onclick="saveReceived(${i})">Simpan</button></div>`).join('');$('saveAll').disabled=!received.length}
+window.saveReceived=async i=>{const x=received[i];if(saveDir){try{await writeIntoDir(saveDir,x.path,x.blob);setStatus(`✅ Disimpan: ${esc(x.path)}`,'ok');return}catch(e){}}downloadBlob(x.blob,x.path.split('/').pop())};
+async function writeIntoDir(root,path,blob){const parts=path.split('/').filter(Boolean);const filename=parts.pop();let dir=root;for(const p of parts)dir=await dir.getDirectoryHandle(p,{create:true});const fh=await dir.getFileHandle(filename,{create:true});const w=await fh.createWritable();await w.write(blob);await w.close()}
+function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+$('chooseSaveDir').onclick=async()=>{if(!window.showDirectoryPicker){setStatus('Browser ini tidak mendukung memilih folder tujuan. File tetap bisa disimpan satu per satu.','warn');return}try{saveDir=await window.showDirectoryPicker({mode:'readwrite'});$('saveAll').disabled=!received.length;setStatus('Folder tujuan siap. Simpan Semua akan mempertahankan subfolder bila tersedia.','ok')}catch{setStatus('Pemilihan folder dibatalkan.','warn')}};
+$('saveAll').onclick=async()=>{if(!received.length)return;if(saveDir){for(const x of received)await writeIntoDir(saveDir,x.path,x.blob);setStatus(`✅ ${received.length} file disimpan ke folder tujuan.`,'ok')}else{for(const x of received)downloadBlob(x.blob,x.path.split('/').pop());setStatus(`✅ ${received.length} file siap diunduh.`,'ok')}};
+renderFiles();renderReceived();
 </script>
 </body></html>
