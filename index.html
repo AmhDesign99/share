@@ -2,1367 +2,150 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b1220">
-<meta name="description" content="LAN Share — berbagi folder dan file langsung antar perangkat via WebRTC">
-<title>LAN Share — P2P Shared Folder</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>LAN Share — Kode 5 Angka</title>
 <style>
-:root{--bg:#07101d;--panel:#0e1929;--panel2:#111f32;--line:#263852;--text:#f6f8fc;--muted:#94a5bd;--accent:#67b7ff;--good:#55d69d;--warn:#f2c96b;--danger:#ff7182;--shadow:0 24px 80px #0009}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% -10%,#15415f 0,#07101d 38%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}main{width:min(1040px,100%);margin:auto;padding:18px 14px 42px}.brand{display:flex;align-items:center;gap:12px;margin:4px 2px 18px}.logo{width:48px;height:48px;border:1px solid #ffffff18;border-radius:16px;background:#ffffff09;display:grid;place-items:center;font-size:22px;box-shadow:var(--shadow)}.brand h1{font-size:20px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}.hero{border:1px solid var(--line);background:linear-gradient(140deg,#0f1d30,#0a1422);border-radius:28px;padding:21px;box-shadow:var(--shadow)}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid #55d69d3b;background:#55d69d10;color:#a6eed0;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}.dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 14px var(--good)}h2{font-size:30px;line-height:1.08;margin:13px 0 8px}.hero p{margin:0;color:var(--muted);line-height:1.6;max-width:760px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}.card{border:1px solid var(--line);background:#0d1828e8;border-radius:24px;padding:18px}.card h3{font-size:17px;margin:0 0 6px}.sub{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 14px}.row{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:12px 14px;background:var(--accent);color:#061321;font-weight:850;cursor:pointer}.btn.secondary{background:#ffffff0b;color:var(--text);border:1px solid var(--line)}.btn.danger{background:#ff718215;color:#ff9ca8;border:1px solid #ff718242}.btn:disabled{opacity:.42;cursor:not-allowed}.status{margin-top:13px;padding:11px 13px;border-radius:14px;background:#081423;border:1px solid var(--line);font-size:13px;color:#cbd7e6}.status.ok{color:#99e9c6;border-color:#55d69d35}.status.warn{color:#f7d584;border-color:#f2c96b35}.status.err{color:#ff9eaa;border-color:#ff718235}.codebox{margin-top:12px;border:1px dashed #49617e;background:#091321;border-radius:18px;padding:16px;text-align:center}.qr{display:block;width:min(260px,70vw);aspect-ratio:1;margin:0 auto 12px;background:white;border-radius:16px;padding:10px}.hint{font-size:12px;color:var(--muted);line-height:1.5}.drop{border:1px dashed #4c6789;padding:18px;border-radius:18px;text-align:center;background:#081321;color:var(--muted);cursor:pointer}.drop strong{display:block;color:var(--text);margin-bottom:5px}.drop.drag{border-color:var(--accent);background:#67b7ff10}.files{display:grid;gap:8px;margin-top:13px;max-height:340px;overflow:auto}.file{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:#091523;padding:10px 11px;border-radius:14px}.file .name{flex:1;min-width:0}.file .name>div:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:11px;color:var(--muted);margin-top:3px}.pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted)}.progress{height:8px;background:#ffffff0b;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-top:11px}.progress>i{display:block;height:100%;width:0;background:var(--accent);transition:width .08s}.steps{display:grid;gap:9px}.step{display:flex;gap:10px;color:#cbd7e6;font-size:13px;line-height:1.45}.num{width:23px;height:23px;flex:0 0 23px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--line);background:#ffffff08;font-size:11px}textarea{width:100%;min-height:130px;background:#07101d;border:1px solid var(--line);color:#dfe7f2;border-radius:15px;padding:11px;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#02060dbd;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:15px;z-index:50}.modalbox{width:min(520px,100%);background:#0d1828;border:1px solid var(--line);border-radius:24px;padding:17px;box-shadow:var(--shadow)}.modalhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:11px}.modalhead h3{margin:0}.scanner{position:relative;overflow:hidden;border-radius:18px;background:#000;aspect-ratio:4/3}.scanner video,.scanner canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.scanner canvas{display:none}.scanframe{position:absolute;inset:14%;border:2px solid #fff8;border-radius:20px;box-shadow:0 0 0 999px #0003}.close{border:1px solid var(--line);background:#ffffff08;color:var(--text);border-radius:12px;padding:8px 11px;cursor:pointer}footer{text-align:center;color:#64758c;font-size:11px;margin-top:16px}
-@media(max-width:760px){main{padding:12px 11px 34px}.grid{grid-template-columns:1fr}.hero{padding:18px}h2{font-size:26px}.card{padding:16px}.btn{flex:1;min-width:135px}}
+:root{--bg:#07111f;--panel:#0d1a2b;--panel2:#102238;--line:#223a55;--text:#f7fbff;--muted:#91a6bd;--accent:#6ee7b7;--accent2:#60a5fa;--danger:#fb7185;--warn:#fbbf24;--shadow:0 24px 90px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 80% -10%,#173c58 0,#07111f 38%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}main{width:min(1040px,100%);margin:auto;padding:18px 14px 40px}.top{display:flex;align-items:center;gap:12px;margin:2px 2px 18px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#1b3150,#0e1c2d);border:1px solid var(--line);display:grid;place-items:center;font-size:22px;box-shadow:var(--shadow)}.top h1{font-size:20px;margin:0}.top p{font-size:12px;color:var(--muted);margin:3px 0 0}.hero{border:1px solid var(--line);border-radius:28px;padding:21px;background:linear-gradient(145deg,#0f1d30,#091522);box-shadow:var(--shadow)}.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid #6ee7b733;background:#6ee7b712;color:#b7f7df;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800}.dot{width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 16px #6ee7b7}.hero h2{font-size:31px;line-height:1.05;margin:14px 0 9px}.hero p{color:var(--muted);max-width:800px;line-height:1.65;margin:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.card{border:1px solid var(--line);background:#0d1a2bed;border-radius:23px;padding:17px}.card h3{margin:0 0 5px;font-size:17px}.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 13px}.row{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:12px 14px;font-weight:850;cursor:pointer;background:var(--accent);color:#06140f}.btn.alt{background:#ffffff08;color:var(--text);border:1px solid var(--line)}.btn.blue{background:var(--accent2);color:#06101d}.btn.danger{background:#fb718515;color:#ffacb9;border:1px solid #fb71853b}.btn:disabled{opacity:.42;cursor:not-allowed}.status{margin-top:12px;border:1px solid var(--line);border-radius:14px;padding:11px 13px;background:#081321;font-size:13px;color:#ccd8e7}.status.ok{border-color:#6ee7b73d;color:#a9f2d6}.status.warn{border-color:#fbbf243d;color:#f9d88c}.status.err{border-color:#fb71853d;color:#ffadb8}.code{margin-top:12px;border:1px dashed #4a6786;border-radius:18px;background:#081321;padding:16px;text-align:center}.digits{letter-spacing:.26em;font-weight:950;font-size:40px;line-height:1.1;color:var(--accent2);font-variant-numeric:tabular-nums}.small{font-size:11px;color:var(--muted);margin-top:7px}.input{width:100%;height:50px;border-radius:14px;background:#07111f;border:1px solid var(--line);color:var(--text);padding:0 14px;font-size:22px;letter-spacing:.24em;text-align:center;outline:none}.input:focus{border-color:var(--accent2)}.drop{border:1px dashed #4b6682;background:#081321;border-radius:18px;padding:18px;text-align:center;color:var(--muted);cursor:pointer}.drop strong{display:block;color:var(--text);margin-bottom:5px}.drop.drag{border-color:var(--accent2);background:#60a5fa0d}.files{display:grid;gap:8px;max-height:330px;overflow:auto;margin-top:12px}.file{display:flex;align-items:center;gap:10px;padding:10px 11px;border:1px solid var(--line);background:#091523;border-radius:14px}.ico{font-size:19px}.fname{flex:1;min-width:0}.fname .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:11px;color:var(--muted);margin-top:3px}.pill{font-size:11px;padding:5px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}.bar{height:9px;border-radius:99px;background:#ffffff09;border:1px solid var(--line);overflow:hidden;margin-top:10px}.bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .08s}.receive{margin-top:12px;display:grid;gap:8px}.recv{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:#091523;border-radius:14px;padding:10px}.recv .grow{flex:1;min-width:0}.progressText{font-size:12px;color:var(--muted);margin-top:5px}.hidden{display:none!important}.footer{color:#60748c;text-align:center;font-size:11px;margin-top:16px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.note{font-size:12px;color:var(--muted);line-height:1.55}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--line);border-radius:7px;padding:2px 6px;background:#ffffff07}.modal{position:fixed;inset:0;background:#02060db8;backdrop-filter:blur(10px);display:grid;place-items:center;padding:14px;z-index:10}.modalBox{width:min(480px,100%);background:#0d1a2b;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.modalHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.modalHead h3{margin:0}.cam{position:relative;background:#000;border-radius:18px;overflow:hidden;aspect-ratio:4/3}.cam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.scanline{position:absolute;left:13%;right:13%;top:50%;height:2px;background:#6ee7b7;box-shadow:0 0 18px #6ee7b7}.close{border:1px solid var(--line);background:#ffffff08;color:var(--text);border-radius:12px;padding:8px 11px}
+@media(max-width:760px){main{padding:12px 10px 28px}.grid{grid-template-columns:1fr}.hero{padding:18px}.hero h2{font-size:27px}.digits{font-size:35px}.two{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main>
-<header class="brand"><div class="logo">↔</div><div><h1>LAN Share</h1><p>Browser-only • Shared Folder • P2P WebRTC</p></div></header>
-<section class="hero"><span class="badge"><span class="dot"></span> File tidak disimpan di GitHub</span><h2>Berbagi folder langsung antar perangkat.</h2><p>Buka halaman yang sama di dua perangkat. Pairing menggunakan QR Code, lalu file dikirim melalui WebRTC DataChannel. GitHub hanya menjadi tempat halaman aplikasinya.</p><div id="status" class="status">Belum terhubung. Mulai dari <b>Buat Sesi</b> di perangkat pengirim.</div></section>
+<header class="top"><div class="logo">↔</div><div><h1>LAN Share</h1><p>Kode 5 Angka • Browser-only • P2P</p></div></header>
+<section class="hero"><span class="tag"><span class="dot"></span> GitHub hanya untuk aplikasi</span><h2>Kirim folder langsung antar perangkat.</h2><p>Gunakan kode 5 angka untuk memasangkan perangkat. Setelah tersambung, data file dikirim lewat WebRTC DataChannel. Server hanya membantu menemukan pasangan; file tidak diunggah ke GitHub atau disimpan di server.</p><div id="globalStatus" class="status">Belum terhubung. Pilih <b>Buat Sesi</b> atau masukkan kode sesi.</div></section>
 
 <section class="grid">
-  <div class="card">
-    <h3>1. Pengirim</h3><p class="sub">Buat sesi, lalu tampilkan QR Code. Penerima tinggal scan.</p>
-    <div class="row"><button class="btn" id="createOffer">Buat Sesi</button><button class="btn secondary hidden" id="showOfferQr">Tampilkan QR</button></div>
-    <div id="offerBox" class="hidden" style="margin-top:13px"><textarea id="offerText" readonly></textarea></div>
-    <div id="answerScanArea" class="hidden" style="margin-top:12px"><p class="sub" style="margin-bottom:8px">Setelah penerima membuat QR jawaban, tekan tombol di bawah untuk memindai.</p><button class="btn secondary" id="scanAnswer">Scan QR Jawaban</button></div>
-  </div>
-  <div class="card">
-    <h3>2. Penerima</h3><p class="sub">Scan QR dari pengirim. Setelah itu tampilkan QR jawaban untuk pengirim.</p>
-    <div class="row"><button class="btn" id="scanOffer">Scan QR Pengirim</button><button class="btn secondary hidden" id="showAnswerQr">Tampilkan QR Jawaban</button></div>
-    <div id="answerBox" class="hidden" style="margin-top:13px"><textarea id="answerText" readonly></textarea></div>
-  </div>
+<div class="card">
+<h3>Pengirim</h3><p class="sub">Buat ruang berbagi dan bagikan 5 angka ke perangkat penerima.</p>
+<button class="btn" id="hostBtn">Buat Sesi</button>
+<div id="hostCode" class="code hidden"><div class="small">KODE SESI</div><div id="hostDigits" class="digits">00000</div><div class="small">Kirim 5 angka ini ke penerima.</div></div>
+<div class="status" id="hostStatus">Belum ada sesi.</div>
+</div>
+<div class="card">
+<h3>Penerima</h3><p class="sub">Masukkan kode 5 angka dari pengirim. Bisa Android, iPhone, Windows, Linux, atau Mac.</p>
+<input id="joinCode" class="input" inputmode="numeric" autocomplete="one-time-code" maxlength="5" placeholder="12345">
+<div class="row" style="margin-top:10px"><button class="btn blue" id="joinBtn">Gabung Sesi</button><button class="btn alt" id="copyCodeBtn">Salin</button></div>
+<div class="status" id="joinStatus">Menunggu kode.</div>
+</div>
 </section>
 
-<section class="card" style="margin-top:15px">
-  <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><h3>3. Shared Folder</h3><p class="sub">Pilih satu folder atau banyak file. Struktur folder disimpan dari <code>webkitRelativePath</code> bila tersedia.</p></div><span class="pill" id="peerState">OFFLINE</span></div>
-  <div class="row" style="margin-bottom:10px"><button class="btn" id="pickFolder">📁 Pilih Folder</button><button class="btn secondary" id="pickFiles">📄 Pilih File</button><input id="folderPicker" type="file" webkitdirectory directory multiple class="hidden"><input id="filePicker" type="file" multiple class="hidden"></div>
-  <div class="drop" id="drop"><strong>Tap untuk memilih file</strong>Desktop: tarik file atau folder ke sini</div>
-  <div class="row" style="margin-top:10px"><button class="btn" id="sendFiles" disabled>Kirim Sekarang</button><button class="btn secondary" id="clearFiles">Bersihkan</button></div>
-  <div id="sendProgress" class="progress hidden"><i></i></div><div id="sendInfo" class="hint" style="margin-top:6px"></div>
-  <div class="files" id="fileList"></div>
+<section class="card" style="margin-top:14px">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap"><div><h3>Shared Folder</h3><p class="sub">Pilih folder untuk mempertahankan struktur subfolder, atau pilih file biasa.</p></div><span id="connectionPill" class="pill">OFFLINE</span></div>
+<div class="row" style="margin-bottom:10px">
+<button class="btn" id="folderBtn">📁 Pilih Folder</button>
+<button class="btn alt" id="filesBtn">📄 Pilih File</button>
+<input id="folderInput" type="file" webkitdirectory directory multiple class="hidden">
+<input id="filesInput" type="file" multiple class="hidden">
+</div>
+<div id="drop" class="drop"><strong>Tap untuk memilih file</strong>Desktop: tarik file/folder ke sini</div>
+<div id="selectedBar" class="hidden"><div class="bar"><i id="sendBar"></i></div><div id="sendText" class="progressText"></div></div>
+<div class="row" style="margin-top:10px"><button id="sendBtn" class="btn" disabled>Kirim ke Penerima</button><button id="clearBtn" class="btn alt">Bersihkan</button></div>
+<div class="files" id="selectedList"></div>
 </section>
 
 <section class="grid">
-  <div class="card"><h3>4. File diterima</h3><p class="sub">File yang masuk muncul di sini. Pada browser yang mendukung File System Access API, kamu bisa memilih folder tujuan agar subfolder dibuat otomatis.</p><div class="row"><button class="btn secondary" id="chooseSaveDir">📂 Pilih Folder Tujuan</button><button class="btn secondary" id="saveAll" disabled>Simpan Semua</button></div><div class="files" id="receivedList"></div></div>
-  <div class="card"><h3>Alur paling hemat kuota</h3><div class="steps"><div class="step"><span class="num">1</span><span>Buka GitHub Pages di kedua HP.</span></div><div class="step"><span class="num">2</span><span>Pairing dua arah dengan QR; QR hanya membawa informasi koneksi.</span></div><div class="step"><span class="num">3</span><span>Setelah <b>CONNECTED</b>, isi file berjalan melalui koneksi P2P.</span></div></div><div class="status warn" style="margin-top:13px">Catatan: membuka GitHub Pages dan library QR tetap memerlukan internet. Transfer file tidak diunggah ke GitHub.</div></div>
+<div class="card"><h3>File diterima</h3><p class="sub">File masuk akan tersedia untuk disimpan. Pada browser yang mendukungnya, pilih folder tujuan agar subfolder dibuat otomatis.</p><div class="row"><button class="btn alt" id="saveDirBtn">📂 Folder Tujuan</button><button class="btn alt" id="saveAllBtn" disabled>Simpan Semua</button></div><div id="receivedList" class="receive"></div></div>
+<div class="card"><h3>Kenapa hemat kuota?</h3><div class="note">Pembukaan GitHub Pages dan koneksi signaling tetap membutuhkan sedikit internet. Setelah WebRTC terhubung langsung, file dikirim lewat DataChannel antar-perangkat. Pada jaringan lokal yang memungkinkan jalur langsung, server signaling tidak menjadi jalur data file.</div><div class="status warn">Catatan: jika jaringan memaksa relay TURN, trafik dapat keluar melalui internet. Konfigurasi aplikasi ini tidak memasang TURN, sehingga fokusnya koneksi langsung/LAN.</div></div>
 </section>
-<footer>LAN Share • GitHub Pages + WebRTC • tidak membutuhkan APK</footer>
+<div class="footer">LAN Share • 5-digit pairing • WebRTC • GitHub Pages</div>
 </main>
 
-<div id="modal" class="modal hidden"><div class="modalbox"><div class="modalhead"><h3 id="modalTitle">QR Pairing</h3><button class="close" id="closeModal">Tutup</button></div><div id="qrView" class="hidden"><canvas id="qrCanvas" class="qr"></canvas><div id="qrHint" class="hint" style="text-align:center"></div></div><div id="scanView" class="hidden"><div class="scanner"><video id="video" playsinline></video><canvas id="scanCanvas"></canvas><div class="scanframe"></div></div><p id="scanHint" class="hint" style="margin-top:10px">Arahkan kamera ke QR Code.</p></div></div></div>
+<div id="modal" class="modal hidden"><div class="modalBox"><div class="modalHead"><h3 id="modalTitle">Memindai kode</h3><button class="close" id="closeModal">Tutup</button></div><div class="cam"><video id="video" playsinline></video><div class="scanline"></div></div><p class="note" id="scanNote">Arahkan kamera ke QR jika perangkat pengirim menampilkan QR. Untuk mode 5 angka, cukup ketik kode sesi.</p></div></div>
 
+<script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
 <script>
-// Self-contained QR generator. No CDN dependency required.
-(function(){
-  const modules={};
-  modules['QR8bitByte']=function(module,exports,require){
-var QRMode = require('./QRMode');
-
-function QR8bitByte(data) {
-	this.mode = QRMode.MODE_8BIT_BYTE;
-	this.data = data;
-}
-
-QR8bitByte.prototype = {
-
-	getLength : function() {
-		return this.data.length;
-	},
-	
-	write : function(buffer) {
-		for (var i = 0; i < this.data.length; i++) {
-			// not JIS ...
-			buffer.put(this.data.charCodeAt(i), 8);
-		}
-	}
-};
-
-module.exports = QR8bitByte;
-
-  };
-  modules['QRMath']=function(module,exports,require){
-var QRMath = {
-
-	glog : function(n) {
-	
-		if (n < 1) {
-			throw new Error("glog(" + n + ")");
-		}
-		
-		return QRMath.LOG_TABLE[n];
-	},
-	
-	gexp : function(n) {
-	
-		while (n < 0) {
-			n += 255;
-		}
-	
-		while (n >= 256) {
-			n -= 255;
-		}
-	
-		return QRMath.EXP_TABLE[n];
-	},
-	
-	EXP_TABLE : new Array(256),
-	
-	LOG_TABLE : new Array(256)
-
-};
-	
-for (var i = 0; i < 8; i++) {
-	QRMath.EXP_TABLE[i] = 1 << i;
-}
-for (var i = 8; i < 256; i++) {
-	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
-		^ QRMath.EXP_TABLE[i - 5]
-		^ QRMath.EXP_TABLE[i - 6]
-		^ QRMath.EXP_TABLE[i - 8];
-}
-for (var i = 0; i < 255; i++) {
-	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
-}
-
-module.exports = QRMath;
-
-  };
-  modules['QRPolynomial']=function(module,exports,require){
-var QRMath = require('./QRMath');
-
-function QRPolynomial(num, shift) {
-	if (num.length === undefined) {
-		throw new Error(num.length + "/" + shift);
-	}
-
-	var offset = 0;
-
-	while (offset < num.length && num[offset] === 0) {
-		offset++;
-	}
-
-	this.num = new Array(num.length - offset + shift);
-	for (var i = 0; i < num.length - offset; i++) {
-		this.num[i] = num[i + offset];
-	}
-}
-
-QRPolynomial.prototype = {
-
-	get : function(index) {
-		return this.num[index];
-	},
-	
-	getLength : function() {
-		return this.num.length;
-	},
-	
-	multiply : function(e) {
-	
-		var num = new Array(this.getLength() + e.getLength() - 1);
-	
-		for (var i = 0; i < this.getLength(); i++) {
-			for (var j = 0; j < e.getLength(); j++) {
-				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
-			}
-		}
-	
-		return new QRPolynomial(num, 0);
-	},
-	
-	mod : function(e) {
-	
-		if (this.getLength() - e.getLength() < 0) {
-			return this;
-		}
-	
-		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
-	
-		var num = new Array(this.getLength() );
-		
-		for (var i = 0; i < this.getLength(); i++) {
-			num[i] = this.get(i);
-		}
-		
-		for (var x = 0; x < e.getLength(); x++) {
-			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
-		}
-	
-		// recursive call
-		return new QRPolynomial(num, 0).mod(e);
-	}
-};
-
-module.exports = QRPolynomial;
-
-  };
-  modules['QRRSBlock']=function(module,exports,require){
-var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
-
-function QRRSBlock(totalCount, dataCount) {
-	this.totalCount = totalCount;
-	this.dataCount  = dataCount;
-}
-
-QRRSBlock.RS_BLOCK_TABLE = [
-
-	// L
-	// M
-	// Q
-	// H
-
-	// 1
-	[1, 26, 19],
-	[1, 26, 16],
-	[1, 26, 13],
-	[1, 26, 9],
-	
-	// 2
-	[1, 44, 34],
-	[1, 44, 28],
-	[1, 44, 22],
-	[1, 44, 16],
-
-	// 3
-	[1, 70, 55],
-	[1, 70, 44],
-	[2, 35, 17],
-	[2, 35, 13],
-
-	// 4		
-	[1, 100, 80],
-	[2, 50, 32],
-	[2, 50, 24],
-	[4, 25, 9],
-	
-	// 5
-	[1, 134, 108],
-	[2, 67, 43],
-	[2, 33, 15, 2, 34, 16],
-	[2, 33, 11, 2, 34, 12],
-	
-	// 6
-	[2, 86, 68],
-	[4, 43, 27],
-	[4, 43, 19],
-	[4, 43, 15],
-	
-	// 7		
-	[2, 98, 78],
-	[4, 49, 31],
-	[2, 32, 14, 4, 33, 15],
-	[4, 39, 13, 1, 40, 14],
-	
-	// 8
-	[2, 121, 97],
-	[2, 60, 38, 2, 61, 39],
-	[4, 40, 18, 2, 41, 19],
-	[4, 40, 14, 2, 41, 15],
-	
-	// 9
-	[2, 146, 116],
-	[3, 58, 36, 2, 59, 37],
-	[4, 36, 16, 4, 37, 17],
-	[4, 36, 12, 4, 37, 13],
-	
-	// 10		
-	[2, 86, 68, 2, 87, 69],
-	[4, 69, 43, 1, 70, 44],
-	[6, 43, 19, 2, 44, 20],
-	[6, 43, 15, 2, 44, 16],
-
-	// 11
-	[4, 101, 81],
-	[1, 80, 50, 4, 81, 51],
-	[4, 50, 22, 4, 51, 23],
-	[3, 36, 12, 8, 37, 13],
-
-	// 12
-	[2, 116, 92, 2, 117, 93],
-	[6, 58, 36, 2, 59, 37],
-	[4, 46, 20, 6, 47, 21],
-	[7, 42, 14, 4, 43, 15],
-
-	// 13
-	[4, 133, 107],
-	[8, 59, 37, 1, 60, 38],
-	[8, 44, 20, 4, 45, 21],
-	[12, 33, 11, 4, 34, 12],
-
-	// 14
-	[3, 145, 115, 1, 146, 116],
-	[4, 64, 40, 5, 65, 41],
-	[11, 36, 16, 5, 37, 17],
-	[11, 36, 12, 5, 37, 13],
-
-	// 15
-	[5, 109, 87, 1, 110, 88],
-	[5, 65, 41, 5, 66, 42],
-	[5, 54, 24, 7, 55, 25],
-	[11, 36, 12],
-
-	// 16
-	[5, 122, 98, 1, 123, 99],
-	[7, 73, 45, 3, 74, 46],
-	[15, 43, 19, 2, 44, 20],
-	[3, 45, 15, 13, 46, 16],
-
-	// 17
-	[1, 135, 107, 5, 136, 108],
-	[10, 74, 46, 1, 75, 47],
-	[1, 50, 22, 15, 51, 23],
-	[2, 42, 14, 17, 43, 15],
-
-	// 18
-	[5, 150, 120, 1, 151, 121],
-	[9, 69, 43, 4, 70, 44],
-	[17, 50, 22, 1, 51, 23],
-	[2, 42, 14, 19, 43, 15],
-
-	// 19
-	[3, 141, 113, 4, 142, 114],
-	[3, 70, 44, 11, 71, 45],
-	[17, 47, 21, 4, 48, 22],
-	[9, 39, 13, 16, 40, 14],
-
-	// 20
-	[3, 135, 107, 5, 136, 108],
-	[3, 67, 41, 13, 68, 42],
-	[15, 54, 24, 5, 55, 25],
-	[15, 43, 15, 10, 44, 16],
-
-	// 21
-	[4, 144, 116, 4, 145, 117],
-	[17, 68, 42],
-	[17, 50, 22, 6, 51, 23],
-	[19, 46, 16, 6, 47, 17],
-
-	// 22
-	[2, 139, 111, 7, 140, 112],
-	[17, 74, 46],
-	[7, 54, 24, 16, 55, 25],
-	[34, 37, 13],
-
-	// 23
-	[4, 151, 121, 5, 152, 122],
-	[4, 75, 47, 14, 76, 48],
-	[11, 54, 24, 14, 55, 25],
-	[16, 45, 15, 14, 46, 16],
-
-	// 24
-	[6, 147, 117, 4, 148, 118],
-	[6, 73, 45, 14, 74, 46],
-	[11, 54, 24, 16, 55, 25],
-	[30, 46, 16, 2, 47, 17],
-
-	// 25
-	[8, 132, 106, 4, 133, 107],
-	[8, 75, 47, 13, 76, 48],
-	[7, 54, 24, 22, 55, 25],
-	[22, 45, 15, 13, 46, 16],
-
-	// 26
-	[10, 142, 114, 2, 143, 115],
-	[19, 74, 46, 4, 75, 47],
-	[28, 50, 22, 6, 51, 23],
-	[33, 46, 16, 4, 47, 17],
-
-	// 27
-	[8, 152, 122, 4, 153, 123],
-	[22, 73, 45, 3, 74, 46],
-	[8, 53, 23, 26, 54, 24],
-	[12, 45, 15, 28, 46, 16],
-
-	// 28
-	[3, 147, 117, 10, 148, 118],
-	[3, 73, 45, 23, 74, 46],
-	[4, 54, 24, 31, 55, 25],
-	[11, 45, 15, 31, 46, 16],
-
-	// 29
-	[7, 146, 116, 7, 147, 117],
-	[21, 73, 45, 7, 74, 46],
-	[1, 53, 23, 37, 54, 24],
-	[19, 45, 15, 26, 46, 16],
-
-	// 30
-	[5, 145, 115, 10, 146, 116],
-	[19, 75, 47, 10, 76, 48],
-	[15, 54, 24, 25, 55, 25],
-	[23, 45, 15, 25, 46, 16],
-
-	// 31
-	[13, 145, 115, 3, 146, 116],
-	[2, 74, 46, 29, 75, 47],
-	[42, 54, 24, 1, 55, 25],
-	[23, 45, 15, 28, 46, 16],
-
-	// 32
-	[17, 145, 115],
-	[10, 74, 46, 23, 75, 47],
-	[10, 54, 24, 35, 55, 25],
-	[19, 45, 15, 35, 46, 16],
-
-	// 33
-	[17, 145, 115, 1, 146, 116],
-	[14, 74, 46, 21, 75, 47],
-	[29, 54, 24, 19, 55, 25],
-	[11, 45, 15, 46, 46, 16],
-
-	// 34
-	[13, 145, 115, 6, 146, 116],
-	[14, 74, 46, 23, 75, 47],
-	[44, 54, 24, 7, 55, 25],
-	[59, 46, 16, 1, 47, 17],
-
-	// 35
-	[12, 151, 121, 7, 152, 122],
-	[12, 75, 47, 26, 76, 48],
-	[39, 54, 24, 14, 55, 25],
-	[22, 45, 15, 41, 46, 16],
-
-	// 36
-	[6, 151, 121, 14, 152, 122],
-	[6, 75, 47, 34, 76, 48],
-	[46, 54, 24, 10, 55, 25],
-	[2, 45, 15, 64, 46, 16],
-
-	// 37
-	[17, 152, 122, 4, 153, 123],
-	[29, 74, 46, 14, 75, 47],
-	[49, 54, 24, 10, 55, 25],
-	[24, 45, 15, 46, 46, 16],
-
-	// 38
-	[4, 152, 122, 18, 153, 123],
-	[13, 74, 46, 32, 75, 47],
-	[48, 54, 24, 14, 55, 25],
-	[42, 45, 15, 32, 46, 16],
-
-	// 39
-	[20, 147, 117, 4, 148, 118],
-	[40, 75, 47, 7, 76, 48],
-	[43, 54, 24, 22, 55, 25],
-	[10, 45, 15, 67, 46, 16],
-
-	// 40
-	[19, 148, 118, 6, 149, 119],
-	[18, 75, 47, 31, 76, 48],
-	[34, 54, 24, 34, 55, 25],
-	[20, 45, 15, 61, 46, 16]
-];
-
-QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
-	
-	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
-	
-	if (rsBlock === undefined) {
-		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
-	}
-
-	var length = rsBlock.length / 3;
-	
-	var list = [];
-	
-	for (var i = 0; i < length; i++) {
-
-		var count = rsBlock[i * 3 + 0];
-		var totalCount = rsBlock[i * 3 + 1];
-		var dataCount  = rsBlock[i * 3 + 2];
-
-		for (var j = 0; j < count; j++) {
-			list.push(new QRRSBlock(totalCount, dataCount) );	
-		}
-	}
-	
-	return list;
-};
-
-QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
-
-	switch(errorCorrectLevel) {
-	case QRErrorCorrectLevel.L :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
-	case QRErrorCorrectLevel.M :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
-	case QRErrorCorrectLevel.Q :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
-	case QRErrorCorrectLevel.H :
-		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
-	default :
-		return undefined;
-	}
-};
-
-module.exports = QRRSBlock;
-
-  };
-  modules['QRBitBuffer']=function(module,exports,require){
-function QRBitBuffer() {
-	this.buffer = [];
-	this.length = 0;
-}
-
-QRBitBuffer.prototype = {
-
-	get : function(index) {
-		var bufIndex = Math.floor(index / 8);
-		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
-	},
-	
-	put : function(num, length) {
-		for (var i = 0; i < length; i++) {
-			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
-		}
-	},
-	
-	getLengthInBits : function() {
-		return this.length;
-	},
-	
-	putBit : function(bit) {
-	
-		var bufIndex = Math.floor(this.length / 8);
-		if (this.buffer.length <= bufIndex) {
-			this.buffer.push(0);
-		}
-	
-		if (bit) {
-			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
-		}
-	
-		this.length++;
-	}
-};
-
-module.exports = QRBitBuffer;
-
-  };
-  modules['QRErrorCorrectLevel']=function(module,exports,require){
-module.exports = {
-	L : 1,
-	M : 0,
-	Q : 3,
-	H : 2
-};
-
-
-  };
-  modules['QRMode']=function(module,exports,require){
-module.exports = {
-    MODE_NUMBER :       1 << 0,
-    MODE_ALPHA_NUM :    1 << 1,
-    MODE_8BIT_BYTE :    1 << 2,
-    MODE_KANJI :        1 << 3
-};
-
-  };
-  modules['QRUtil']=function(module,exports,require){
-var QRMode = require('./QRMode');
-var QRPolynomial = require('./QRPolynomial');
-var QRMath = require('./QRMath');
-var QRMaskPattern = require('./QRMaskPattern');
-
-var QRUtil = {
-
-    PATTERN_POSITION_TABLE : [
-        [],
-        [6, 18],
-        [6, 22],
-        [6, 26],
-        [6, 30],
-        [6, 34],
-        [6, 22, 38],
-        [6, 24, 42],
-        [6, 26, 46],
-        [6, 28, 50],
-        [6, 30, 54],        
-        [6, 32, 58],
-        [6, 34, 62],
-        [6, 26, 46, 66],
-        [6, 26, 48, 70],
-        [6, 26, 50, 74],
-        [6, 30, 54, 78],
-        [6, 30, 56, 82],
-        [6, 30, 58, 86],
-        [6, 34, 62, 90],
-        [6, 28, 50, 72, 94],
-        [6, 26, 50, 74, 98],
-        [6, 30, 54, 78, 102],
-        [6, 28, 54, 80, 106],
-        [6, 32, 58, 84, 110],
-        [6, 30, 58, 86, 114],
-        [6, 34, 62, 90, 118],
-        [6, 26, 50, 74, 98, 122],
-        [6, 30, 54, 78, 102, 126],
-        [6, 26, 52, 78, 104, 130],
-        [6, 30, 56, 82, 108, 134],
-        [6, 34, 60, 86, 112, 138],
-        [6, 30, 58, 86, 114, 142],
-        [6, 34, 62, 90, 118, 146],
-        [6, 30, 54, 78, 102, 126, 150],
-        [6, 24, 50, 76, 102, 128, 154],
-        [6, 28, 54, 80, 106, 132, 158],
-        [6, 32, 58, 84, 110, 136, 162],
-        [6, 26, 54, 82, 110, 138, 166],
-        [6, 30, 58, 86, 114, 142, 170]
-    ],
-
-    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
-    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
-    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
-
-    getBCHTypeInfo : function(data) {
-        var d = data << 10;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
-            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
-        }
-        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
-    },
-
-    getBCHTypeNumber : function(data) {
-        var d = data << 12;
-        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
-            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
-        }
-        return (data << 12) | d;
-    },
-
-    getBCHDigit : function(data) {
-
-        var digit = 0;
-
-        while (data !== 0) {
-            digit++;
-            data >>>= 1;
-        }
-
-        return digit;
-    },
-
-    getPatternPosition : function(typeNumber) {
-        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
-    },
-
-    getMask : function(maskPattern, i, j) {
-        
-        switch (maskPattern) {
-            
-        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
-        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
-        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
-        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
-        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
-        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
-        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
-        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
-
-        default :
-            throw new Error("bad maskPattern:" + maskPattern);
-        }
-    },
-
-    getErrorCorrectPolynomial : function(errorCorrectLength) {
-
-        var a = new QRPolynomial([1], 0);
-
-        for (var i = 0; i < errorCorrectLength; i++) {
-            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
-        }
-
-        return a;
-    },
-
-    getLengthInBits : function(mode, type) {
-
-        if (1 <= type && type < 10) {
-
-            // 1 - 9
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 10;
-            case QRMode.MODE_ALPHA_NUM  : return 9;
-            case QRMode.MODE_8BIT_BYTE  : return 8;
-            case QRMode.MODE_KANJI      : return 8;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else if (type < 27) {
-
-            // 10 - 26
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 12;
-            case QRMode.MODE_ALPHA_NUM  : return 11;
-            case QRMode.MODE_8BIT_BYTE  : return 16;
-            case QRMode.MODE_KANJI      : return 10;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else if (type < 41) {
-
-            // 27 - 40
-
-            switch(mode) {
-            case QRMode.MODE_NUMBER     : return 14;
-            case QRMode.MODE_ALPHA_NUM  : return 13;
-            case QRMode.MODE_8BIT_BYTE  : return 16;
-            case QRMode.MODE_KANJI      : return 12;
-            default :
-                throw new Error("mode:" + mode);
-            }
-
-        } else {
-            throw new Error("type:" + type);
-        }
-    },
-
-    getLostPoint : function(qrCode) {
-        
-        var moduleCount = qrCode.getModuleCount();
-        var lostPoint = 0;
-        var row = 0; 
-        var col = 0;
-
-        
-        // LEVEL1
-        
-        for (row = 0; row < moduleCount; row++) {
-
-            for (col = 0; col < moduleCount; col++) {
-
-                var sameCount = 0;
-                var dark = qrCode.isDark(row, col);
-
-                for (var r = -1; r <= 1; r++) {
-
-                    if (row + r < 0 || moduleCount <= row + r) {
-                        continue;
-                    }
-
-                    for (var c = -1; c <= 1; c++) {
-
-                        if (col + c < 0 || moduleCount <= col + c) {
-                            continue;
-                        }
-
-                        if (r === 0 && c === 0) {
-                            continue;
-                        }
-
-                        if (dark === qrCode.isDark(row + r, col + c) ) {
-                            sameCount++;
-                        }
-                    }
-                }
-
-                if (sameCount > 5) {
-                    lostPoint += (3 + sameCount - 5);
-                }
-            }
-        }
-
-        // LEVEL2
-
-        for (row = 0; row < moduleCount - 1; row++) {
-            for (col = 0; col < moduleCount - 1; col++) {
-                var count = 0;
-                if (qrCode.isDark(row,     col    ) ) count++;
-                if (qrCode.isDark(row + 1, col    ) ) count++;
-                if (qrCode.isDark(row,     col + 1) ) count++;
-                if (qrCode.isDark(row + 1, col + 1) ) count++;
-                if (count === 0 || count === 4) {
-                    lostPoint += 3;
-                }
-            }
-        }
-
-        // LEVEL3
-
-        for (row = 0; row < moduleCount; row++) {
-            for (col = 0; col < moduleCount - 6; col++) {
-                if (qrCode.isDark(row, col) && 
-                        !qrCode.isDark(row, col + 1) && 
-                         qrCode.isDark(row, col + 2) && 
-                         qrCode.isDark(row, col + 3) && 
-                         qrCode.isDark(row, col + 4) && 
-                        !qrCode.isDark(row, col + 5) && 
-                         qrCode.isDark(row, col + 6) ) {
-                    lostPoint += 40;
-                }
-            }
-        }
-
-        for (col = 0; col < moduleCount; col++) {
-            for (row = 0; row < moduleCount - 6; row++) {
-                if (qrCode.isDark(row, col) &&
-                        !qrCode.isDark(row + 1, col) &&
-                         qrCode.isDark(row + 2, col) &&
-                         qrCode.isDark(row + 3, col) &&
-                         qrCode.isDark(row + 4, col) &&
-                        !qrCode.isDark(row + 5, col) &&
-                         qrCode.isDark(row + 6, col) ) {
-                    lostPoint += 40;
-                }
-            }
-        }
-
-        // LEVEL4
-        
-        var darkCount = 0;
-
-        for (col = 0; col < moduleCount; col++) {
-            for (row = 0; row < moduleCount; row++) {
-                if (qrCode.isDark(row, col) ) {
-                    darkCount++;
-                }
-            }
-        }
-        
-        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
-        lostPoint += ratio * 10;
-
-        return lostPoint;       
-    }
-
-};
-
-module.exports = QRUtil;
-
-  };
-  modules['QRMaskPattern']=function(module,exports,require){
-module.exports = {
-	PATTERN000 : 0,
-	PATTERN001 : 1,
-	PATTERN010 : 2,
-	PATTERN011 : 3,
-	PATTERN100 : 4,
-	PATTERN101 : 5,
-	PATTERN110 : 6,
-	PATTERN111 : 7
-};
-
-  };
-  modules['index']=function(module,exports,require){
-//---------------------------------------------------------------------
-// QRCode for JavaScript
-//
-// Copyright (c) 2009 Kazuhiko Arase
-//
-// URL: http://www.d-project.com/
-//
-// Licensed under the MIT license:
-//   http://www.opensource.org/licenses/mit-license.php
-//
-// The word "QR Code" is registered trademark of 
-// DENSO WAVE INCORPORATED
-//   http://www.denso-wave.com/qrcode/faqpatent-e.html
-//
-//---------------------------------------------------------------------
-// Modified to work in node for this project (and some refactoring)
-//---------------------------------------------------------------------
-
-var QR8bitByte = require('./QR8bitByte');
-var QRUtil = require('./QRUtil');
-var QRPolynomial = require('./QRPolynomial');
-var QRRSBlock = require('./QRRSBlock');
-var QRBitBuffer = require('./QRBitBuffer');
-
-function QRCode(typeNumber, errorCorrectLevel) {
-	this.typeNumber = typeNumber;
-	this.errorCorrectLevel = errorCorrectLevel;
-	this.modules = null;
-	this.moduleCount = 0;
-	this.dataCache = null;
-	this.dataList = [];
-}
-
-QRCode.prototype = {
-	
-	addData : function(data) {
-		var newData = new QR8bitByte(data);
-		this.dataList.push(newData);
-		this.dataCache = null;
-	},
-	
-	isDark : function(row, col) {
-		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
-			throw new Error(row + "," + col);
-		}
-		return this.modules[row][col];
-	},
-
-	getModuleCount : function() {
-		return this.moduleCount;
-	},
-	
-	make : function() {
-		// Calculate automatically typeNumber if provided is < 1
-		if (this.typeNumber < 1 ){
-			var typeNumber = 1;
-			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
-				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
-
-				var buffer = new QRBitBuffer();
-				var totalDataCount = 0;
-				for (var i = 0; i < rsBlocks.length; i++) {
-					totalDataCount += rsBlocks[i].dataCount;
-				}
-
-				for (var x = 0; x < this.dataList.length; x++) {
-					var data = this.dataList[x];
-					buffer.put(data.mode, 4);
-					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-					data.write(buffer);
-				}
-				if (buffer.getLengthInBits() <= totalDataCount * 8)
-					break;
-			}
-			this.typeNumber = typeNumber;
-		}
-		this.makeImpl(false, this.getBestMaskPattern() );
-	},
-	
-	makeImpl : function(test, maskPattern) {
-		
-		this.moduleCount = this.typeNumber * 4 + 17;
-		this.modules = new Array(this.moduleCount);
-		
-		for (var row = 0; row < this.moduleCount; row++) {
-			
-			this.modules[row] = new Array(this.moduleCount);
-			
-			for (var col = 0; col < this.moduleCount; col++) {
-				this.modules[row][col] = null;//(col + row) % 3;
-			}
-		}
-	
-		this.setupPositionProbePattern(0, 0);
-		this.setupPositionProbePattern(this.moduleCount - 7, 0);
-		this.setupPositionProbePattern(0, this.moduleCount - 7);
-		this.setupPositionAdjustPattern();
-		this.setupTimingPattern();
-		this.setupTypeInfo(test, maskPattern);
-		
-		if (this.typeNumber >= 7) {
-			this.setupTypeNumber(test);
-		}
-	
-		if (this.dataCache === null) {
-			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
-		}
-	
-		this.mapData(this.dataCache, maskPattern);
-	},
-
-	setupPositionProbePattern : function(row, col)  {
-		
-		for (var r = -1; r <= 7; r++) {
-			
-			if (row + r <= -1 || this.moduleCount <= row + r) continue;
-			
-			for (var c = -1; c <= 7; c++) {
-				
-				if (col + c <= -1 || this.moduleCount <= col + c) continue;
-				
-				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
-                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
-                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
-					this.modules[row + r][col + c] = true;
-				} else {
-					this.modules[row + r][col + c] = false;
-				}
-			}		
-		}		
-	},
-	
-	getBestMaskPattern : function() {
-	
-		var minLostPoint = 0;
-		var pattern = 0;
-	
-		for (var i = 0; i < 8; i++) {
-			
-			this.makeImpl(true, i);
-	
-			var lostPoint = QRUtil.getLostPoint(this);
-	
-			if (i === 0 || minLostPoint >  lostPoint) {
-				minLostPoint = lostPoint;
-				pattern = i;
-			}
-		}
-	
-		return pattern;
-	},
-	
-	createMovieClip : function(target_mc, instance_name, depth) {
-	
-		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
-		var cs = 1;
-	
-		this.make();
-
-		for (var row = 0; row < this.modules.length; row++) {
-			
-			var y = row * cs;
-			
-			for (var col = 0; col < this.modules[row].length; col++) {
-	
-				var x = col * cs;
-				var dark = this.modules[row][col];
-			
-				if (dark) {
-					qr_mc.beginFill(0, 100);
-					qr_mc.moveTo(x, y);
-					qr_mc.lineTo(x + cs, y);
-					qr_mc.lineTo(x + cs, y + cs);
-					qr_mc.lineTo(x, y + cs);
-					qr_mc.endFill();
-				}
-			}
-		}
-		
-		return qr_mc;
-	},
-
-	setupTimingPattern : function() {
-		
-		for (var r = 8; r < this.moduleCount - 8; r++) {
-			if (this.modules[r][6] !== null) {
-				continue;
-			}
-			this.modules[r][6] = (r % 2 === 0);
-		}
-	
-		for (var c = 8; c < this.moduleCount - 8; c++) {
-			if (this.modules[6][c] !== null) {
-				continue;
-			}
-			this.modules[6][c] = (c % 2 === 0);
-		}
-	},
-	
-	setupPositionAdjustPattern : function() {
-	
-		var pos = QRUtil.getPatternPosition(this.typeNumber);
-		
-		for (var i = 0; i < pos.length; i++) {
-		
-			for (var j = 0; j < pos.length; j++) {
-			
-				var row = pos[i];
-				var col = pos[j];
-				
-				if (this.modules[row][col] !== null) {
-					continue;
-				}
-				
-				for (var r = -2; r <= 2; r++) {
-				
-					for (var c = -2; c <= 2; c++) {
-					
-						if (Math.abs(r) === 2 || 
-                            Math.abs(c) === 2 ||
-                            (r === 0 && c === 0) ) {
-							this.modules[row + r][col + c] = true;
-						} else {
-							this.modules[row + r][col + c] = false;
-						}
-					}
-				}
-			}
-		}
-	},
-	
-	setupTypeNumber : function(test) {
-	
-		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
-        var mod;
-	
-		for (var i = 0; i < 18; i++) {
-			mod = (!test && ( (bits >> i) & 1) === 1);
-			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
-		}
-	
-		for (var x = 0; x < 18; x++) {
-			mod = (!test && ( (bits >> x) & 1) === 1);
-			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
-		}
-	},
-	
-	setupTypeInfo : function(test, maskPattern) {
-	
-		var data = (this.errorCorrectLevel << 3) | maskPattern;
-		var bits = QRUtil.getBCHTypeInfo(data);
-        var mod;
-	
-		// vertical		
-		for (var v = 0; v < 15; v++) {
-	
-			mod = (!test && ( (bits >> v) & 1) === 1);
-	
-			if (v < 6) {
-				this.modules[v][8] = mod;
-			} else if (v < 8) {
-				this.modules[v + 1][8] = mod;
-			} else {
-				this.modules[this.moduleCount - 15 + v][8] = mod;
-			}
-		}
-	
-		// horizontal
-		for (var h = 0; h < 15; h++) {
-	
-			mod = (!test && ( (bits >> h) & 1) === 1);
-			
-			if (h < 8) {
-				this.modules[8][this.moduleCount - h - 1] = mod;
-			} else if (h < 9) {
-				this.modules[8][15 - h - 1 + 1] = mod;
-			} else {
-				this.modules[8][15 - h - 1] = mod;
-			}
-		}
-	
-		// fixed module
-		this.modules[this.moduleCount - 8][8] = (!test);
-	
-	},
-	
-	mapData : function(data, maskPattern) {
-		
-		var inc = -1;
-		var row = this.moduleCount - 1;
-		var bitIndex = 7;
-		var byteIndex = 0;
-		
-		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
-	
-			if (col === 6) col--;
-	
-			while (true) {
-	
-				for (var c = 0; c < 2; c++) {
-					
-					if (this.modules[row][col - c] === null) {
-						
-						var dark = false;
-	
-						if (byteIndex < data.length) {
-							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
-						}
-	
-						var mask = QRUtil.getMask(maskPattern, row, col - c);
-	
-						if (mask) {
-							dark = !dark;
-						}
-						
-						this.modules[row][col - c] = dark;
-						bitIndex--;
-	
-						if (bitIndex === -1) {
-							byteIndex++;
-							bitIndex = 7;
-						}
-					}
-				}
-								
-				row += inc;
-	
-				if (row < 0 || this.moduleCount <= row) {
-					row -= inc;
-					inc = -inc;
-					break;
-				}
-			}
-		}
-		
-	}
-
-};
-
-QRCode.PAD0 = 0xEC;
-QRCode.PAD1 = 0x11;
-
-QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
-	
-	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
-	
-	var buffer = new QRBitBuffer();
-	
-	for (var i = 0; i < dataList.length; i++) {
-		var data = dataList[i];
-		buffer.put(data.mode, 4);
-		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
-		data.write(buffer);
-	}
-
-	// calc num max data.
-	var totalDataCount = 0;
-	for (var x = 0; x < rsBlocks.length; x++) {
-		totalDataCount += rsBlocks[x].dataCount;
-	}
-
-	if (buffer.getLengthInBits() > totalDataCount * 8) {
-		throw new Error("code length overflow. (" + 
-            buffer.getLengthInBits() + 
-            ">" +  
-            totalDataCount * 8 + 
-            ")");
-	}
-
-	// end code
-	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
-		buffer.put(0, 4);
-	}
-
-	// padding
-	while (buffer.getLengthInBits() % 8 !== 0) {
-		buffer.putBit(false);
-	}
-
-	// padding
-	while (true) {
-		
-		if (buffer.getLengthInBits() >= totalDataCount * 8) {
-			break;
-		}
-		buffer.put(QRCode.PAD0, 8);
-		
-		if (buffer.getLengthInBits() >= totalDataCount * 8) {
-			break;
-		}
-		buffer.put(QRCode.PAD1, 8);
-	}
-
-	return QRCode.createBytes(buffer, rsBlocks);
-};
-
-QRCode.createBytes = function(buffer, rsBlocks) {
-
-	var offset = 0;
-	
-	var maxDcCount = 0;
-	var maxEcCount = 0;
-	
-	var dcdata = new Array(rsBlocks.length);
-	var ecdata = new Array(rsBlocks.length);
-	
-	for (var r = 0; r < rsBlocks.length; r++) {
-
-		var dcCount = rsBlocks[r].dataCount;
-		var ecCount = rsBlocks[r].totalCount - dcCount;
-
-		maxDcCount = Math.max(maxDcCount, dcCount);
-		maxEcCount = Math.max(maxEcCount, ecCount);
-		
-		dcdata[r] = new Array(dcCount);
-		
-		for (var i = 0; i < dcdata[r].length; i++) {
-			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
-		}
-		offset += dcCount;
-		
-		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
-
-		var modPoly = rawPoly.mod(rsPoly);
-		ecdata[r] = new Array(rsPoly.getLength() - 1);
-		for (var x = 0; x < ecdata[r].length; x++) {
-            var modIndex = x + modPoly.getLength() - ecdata[r].length;
-			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
-		}
-
-	}
-	
-	var totalCodeCount = 0;
-	for (var y = 0; y < rsBlocks.length; y++) {
-		totalCodeCount += rsBlocks[y].totalCount;
-	}
-
-	var data = new Array(totalCodeCount);
-	var index = 0;
-
-	for (var z = 0; z < maxDcCount; z++) {
-		for (var s = 0; s < rsBlocks.length; s++) {
-			if (z < dcdata[s].length) {
-				data[index++] = dcdata[s][z];
-			}
-		}
-	}
-
-	for (var xx = 0; xx < maxEcCount; xx++) {
-		for (var t = 0; t < rsBlocks.length; t++) {
-			if (xx < ecdata[t].length) {
-				data[index++] = ecdata[t][xx];
-			}
-		}
-	}
-
-	return data;
-
-};
-
-module.exports = QRCode;
-
-  };
-  const cache={};
-  function req(name){
-    if(cache[name]) return cache[name].exports;
-    const m={exports:{}}; cache[name]=m;
-    modules[name](m,m.exports,(x)=>req(x.replace(/^\.\//,'')));
-    return m.exports;
-  }
-  window.QRCode=req('index');
-})();
-</script>
-<script>
-let pc=null,dc=null,selected=[],received=[],saveDir=null,scanStream=null,scanTimer=null;
-const CHUNK=64*1024, MAX_BUFFER=4*1024*1024;
 const $=id=>document.getElementById(id);
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function fmt(n){if(n<1024)return n+' B';const u=['KB','MB','GB'];let i=-1;do{n/=1024;i++}while(n>=1024&&i<u.length-1);return n.toFixed(n>10?0:1)+' '+u[i]}
-function setStatus(t,k=''){const el=$('status');el.innerHTML=t;el.className='status '+k}
-function b64e(obj){return btoa(unescape(encodeURIComponent(JSON.stringify(obj)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
-function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return JSON.parse(decodeURIComponent(escape(atob(s))))}
-function waitIce(x){if(x.iceGatheringState==='complete')return Promise.resolve();return new Promise(r=>{const f=()=>{if(x.iceGatheringState==='complete'){x.removeEventListener('icegatheringstatechange',f);r()}};x.addEventListener('icegatheringstatechange',f);setTimeout(r,5000)})}
-function makePC(){if(pc)try{pc.close()}catch{};pc=new RTCPeerConnection({iceServers:[]});pc.onconnectionstatechange=()=>{const s=pc.connectionState; $('peerState').textContent=s.toUpperCase(); if(s==='connected'){setStatus('✅ Terhubung langsung. Data file tidak melewati GitHub.','ok');$('sendFiles').disabled=false}else if(s==='failed'){setStatus('Koneksi gagal. Ulangi pairing dan pastikan kedua perangkat berada pada jaringan yang sama.','err');$('sendFiles').disabled=true}};pc.ondatachannel=e=>setupChannel(e.channel);return pc}
-function setupChannel(ch){dc=ch;dc.binaryType='arraybuffer';dc.onopen=()=>{setStatus('✅ CONNECTED — siap berbagi folder/file.','ok');$('sendFiles').disabled=false};dc.onclose=()=>{ $('peerState').textContent='CLOSED';$('sendFiles').disabled=true};dc.onmessage=handleMessage}
-function sendJson(o){if(dc?.readyState==='open')dc.send(JSON.stringify(o))}
+const CHUNK=64*1024;
+let peer=null, conn=null, role=null, sessionCode=null;
+let selected=[]; let received=[]; let saveDir=null;
+let incoming=null;
 
-async function createOffer(){makePC();const ch=pc.createDataChannel('files',{ordered:true});setupChannel(ch);const offer=await pc.createOffer();await pc.setLocalDescription(offer);await waitIce(pc);const payload={app:'lan-share',v:2,type:'offer',sdp:pc.localDescription.sdp};const code=b64e(payload);$('offerText').value=code;$('offerBox').classList.remove('hidden');$('showOfferQr').classList.remove('hidden');$('answerScanArea').classList.remove('hidden');setStatus('Sesi dibuat. Tampilkan QR lalu tunggu jawaban penerima.','warn');showQR(code,'Scan QR ini dari HP penerima','Pengirim')}
-async function acceptOffer(code){try{const o=b64d(code.trim());if(o.app!=='lan-share'||o.type!=='offer')throw 0;makePC();await pc.setRemoteDescription({type:'offer',sdp:o.sdp});const ans=await pc.createAnswer();await pc.setLocalDescription(ans);await waitIce(pc);const answer=b64e({app:'lan-share',v:2,type:'answer',sdp:pc.localDescription.sdp});$('answerText').value=answer;$('answerBox').classList.remove('hidden');$('showAnswerQr').classList.remove('hidden');setStatus('✅ QR jawaban siap. Tampilkan ke HP pengirim.','warn');showQR(answer,'Scan QR ini kembali dari HP pengirim','Jawaban') }catch(e){setStatus('QR sesi tidak valid.','err')}}
-async function acceptAnswer(code){try{const a=b64d(code.trim());if(a.app!=='lan-share'||a.type!=='answer')throw 0;await pc.setRemoteDescription({type:'answer',sdp:a.sdp});setStatus('Jawaban diterapkan. Menunggu CONNECTED...','warn')}catch(e){setStatus('QR jawaban tidak valid.','err')}}
+function setStatus(el,msg,kind=''){el.className='status'+(kind?' '+kind:'');el.innerHTML=msg;}
+function global(msg,kind=''){setStatus($('globalStatus'),msg,kind);}
+function formatBytes(n){if(n<1024)return n+' B';const u=['KB','MB','GB','TB'];let i=-1;do{n/=1024;i++}while(n>=1024&&i<u.length-1);return n.toFixed(n>=100?0:n>=10?1:2)+' '+u[i];}
+function safePath(p){return (p||'file').replace(/^\/+/, '').split('/').filter(x=>x!=='.'&&x!=='..').join('/');}
+function setConnection(ok){$('connectionPill').textContent=ok?'CONNECTED':'OFFLINE';$('connectionPill').style.color=ok?'#aaf3d6':'var(--muted)';$('sendBtn').disabled=!ok||selected.length===0;}
+function randomCode(){return String(Math.floor(10000+Math.random()*90000));}
+function peerId(code){return 'LANSHARE5-'+code;}
 
-function showModal(){ $('modal').classList.remove('hidden') }function hideModal(){stopScan();$('modal').classList.add('hidden')}
-$('closeModal').onclick=hideModal;$('createOffer').onclick=createOffer;$('showOfferQr').onclick=()=>showQR($('offerText').value,'Scan QR ini dari HP penerima','Pengirim');$('showAnswerQr').onclick=()=>showQR($('answerText').value,'Scan QR ini kembali dari HP pengirim','Penerima');
-function showQR(text,hint,title){showModal();$('modalTitle').textContent=title;$('scanView').classList.add('hidden');$('qrView').classList.remove('hidden');$('qrHint').textContent=hint;const c=$('qrCanvas');try{const qr=new QRCode(0,1);qr.addData(text);qr.make();const n=qr.getModuleCount(),pad=20,cell=Math.max(4,Math.floor((520-pad*2)/n)),size=pad*2+cell*n;c.width=size;c.height=size;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,size,size);ctx.fillStyle='#000';for(let r=0;r<n;r++){for(let col=0;col<n;col++){if(qr.isDark(r,col))ctx.fillRect(pad+col*cell,pad+r*cell,cell,cell);}}}catch(e){$('qrHint').textContent='Gagal membuat QR: '+(e?.message||e)}}
+$('hostBtn').onclick=async()=>{
+  if(peer) peer.destroy();
+  role='host'; sessionCode=randomCode(); $('hostDigits').textContent=sessionCode; $('hostCode').classList.remove('hidden');
+  setStatus($('hostStatus'),'Membuat sesi...','warn'); global('Membuat sesi <b>'+sessionCode+'</b>...','warn');
+  peer=new Peer(peerId(sessionCode),{host:'0.peerjs.com',port:443,path:'/',secure:true,debug:0,config:{iceServers:[]}});
+  peer.on('open',()=>{setStatus($('hostStatus'),'Sesi siap. Bagikan kode <b>'+sessionCode+'</b>.','ok');global('Sesi aktif. Bagikan kode <b>'+sessionCode+'</b> ke penerima.','ok');});
+  peer.on('connection',c=>{ if(conn){c.close();return;} conn=c; setupConn(c); });
+  peer.on('error',e=>{console.error(e);setStatus($('hostStatus'),'Gagal membuat sesi: '+escapeHtml(e.type||e.message||e),'err');global('Koneksi signaling gagal. Coba buat sesi baru.','err');});
+};
 
-$('scanOffer').onclick=()=>openScanner('offer');$('scanAnswer').onclick=()=>openScanner('answer');
-async function openScanner(kind){showModal();$('modalTitle').textContent=kind==='offer'?'Scan QR Pengirim':'Scan QR Jawaban';$('qrView').classList.add('hidden');$('scanView').classList.remove('hidden');$('scanHint').textContent='Meminta izin kamera…';try{if(!navigator.mediaDevices?.getUserMedia)throw Error('camera');scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});const v=$('video');v.srcObject=scanStream;await v.play();$('scanHint').textContent='Arahkan QR ke kotak. Setelah terdeteksi, scanner berhenti otomatis.';scanLoop(kind)}catch(e){$('scanHint').textContent='Kamera tidak bisa diakses. Gunakan browser yang mendukung kamera dan izinkan akses kamera, atau gunakan pairing manual pada versi berikutnya.'}}
-function stopScan(){if(scanTimer){cancelAnimationFrame(scanTimer);scanTimer=null}if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}}
-async function scanLoop(kind){const v=$('video');if('BarcodeDetector' in window){try{if(!scanLoop.detector)scanLoop.detector=new BarcodeDetector({formats:['qr_code']});const codes=await scanLoop.detector.detect(v);if(codes?.[0]?.rawValue){stopScan();hideModal();kind==='offer'?acceptOffer(codes[0].rawValue):acceptAnswer(codes[0].rawValue);return}}catch(e){}}scanTimer=requestAnimationFrame(()=>scanLoop(kind))}
+$('joinBtn').onclick=()=>{
+  const code=$('joinCode').value.replace(/\D/g,'').slice(0,5); $('joinCode').value=code;
+  if(code.length!==5){setStatus($('joinStatus'),'Masukkan tepat <b>5 angka</b>.','warn');return;}
+  if(peer) peer.destroy(); role='guest'; sessionCode=code;
+  setStatus($('joinStatus'),'Menghubungkan ke sesi <b>'+code+'</b>...','warn');global('Menghubungkan ke sesi <b>'+code+'</b>...','warn');
+  peer=new Peer({host:'0.peerjs.com',port:443,path:'/',secure:true,debug:0,config:{iceServers:[]}});
+  peer.on('open',()=>{conn=peer.connect(peerId(code),{reliable:true,serialization:'none'});setupConn(conn);});
+  peer.on('error',e=>{console.error(e);setStatus($('joinStatus'),'Gagal bergabung: '+escapeHtml(e.type||e.message||e),'err');global('Kode tidak ditemukan atau sesi sudah tertutup.','err');});
+};
 
-function addFiles(files){selected=[...files];renderFiles()}
-$('pickFolder').onclick=()=>{if('showDirectoryPicker' in window){$('folderPicker').click()}else $('folderPicker').click()};$('pickFiles').onclick=()=>$('filePicker').click();$('folderPicker').onchange=e=>addFiles(e.target.files);$('filePicker').onchange=e=>addFiles(e.target.files);
-const drop=$('drop');drop.onclick=()=>$('filePicker').click();drop.ondragover=e=>{e.preventDefault();drop.classList.add('drag')};drop.ondragleave=()=>drop.classList.remove('drag');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('drag');addFiles(e.dataTransfer.files)};
-$('clearFiles').onclick=()=>{selected=[];$('filePicker').value='';$('folderPicker').value='';renderFiles()};
-function renderFiles(){$('fileList').innerHTML=selected.map((f,i)=>`<div class="file"><div class="name"><div>📄 ${esc(f.webkitRelativePath||f.name)}</div><div class="meta">${fmt(f.size)}</div></div><button class="btn danger" onclick="removeSelected(${i})">×</button></div>`).join('');$('sendFiles').disabled=!(selected.length&&dc?.readyState==='open')}
-window.removeSelected=i=>{selected.splice(i,1);renderFiles()};
+$('copyCodeBtn').onclick=async()=>{const c=$('joinCode').value;if(c) try{await navigator.clipboard.writeText(c);setStatus($('joinStatus'),'Kode <b>'+c+'</b> disalin.','ok')}catch{setStatus($('joinStatus'),'Salin manual: <b>'+c+'</b>','warn')}};
+$('joinCode').addEventListener('input',e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,5));
 
-async function sendOne(file,index,total){const id=crypto.randomUUID(),path=file.webkitRelativePath||file.name;sendJson({type:'start',id,name:file.name,path,size:file.size,mime:file.type||'application/octet-stream',index,total});let sent=0;for(let off=0;off<file.size;off+=CHUNK){const ab=await file.slice(off,off+CHUNK).arrayBuffer();while(dc.bufferedAmount>MAX_BUFFER)await new Promise(r=>setTimeout(r,25));dc.send(ab);sent+=ab.byteLength;const pct=((index+(sent/file.size))/total)*100;$('sendProgress').classList.remove('hidden');$('sendProgress').firstElementChild.style.width=pct+'%';$('sendInfo').textContent=`Mengirim ${index+1}/${total}: ${path} — ${fmt(sent)} / ${fmt(file.size)}`}sendJson({type:'end',id})}
-$('sendFiles').onclick=async()=>{if(!dc||dc.readyState!=='open'){setStatus('Belum CONNECTED.','warn');return}for(let i=0;i<selected.length;i++)await sendOne(selected[i],i,selected.length);$('sendInfo').textContent=`Selesai mengirim ${selected.length} item.`;setStatus('✅ Semua file selesai dikirim.','ok')};
+function setupConn(c){
+  c.on('open',()=>{setConnection(true);global('✅ <b>CONNECTED</b> — perangkat siap bertukar file.','ok');if(role==='host')setStatus($('hostStatus'),'✅ Penerima terhubung dengan sesi <b>'+sessionCode+'</b>.','ok');else setStatus($('joinStatus'),'✅ Berhasil terhubung ke pengirim.','ok');});
+  c.on('data',handleData);
+  c.on('close',()=>{setConnection(false);global('Koneksi terputus.','warn');if(role==='host')setStatus($('hostStatus'),'Penerima terputus.','warn');else setStatus($('joinStatus'),'Koneksi terputus.','warn');});
+  c.on('error',e=>{console.error(e);global('Kesalahan koneksi: '+escapeHtml(e.message||e),'err');});
+}
 
-let rx={};
-function handleMessage(ev){if(typeof ev.data==='string'){let m;try{m=JSON.parse(ev.data)}catch{return}if(m.type==='start'){rx[m.id]={parts:[],name:m.name,path:m.path||m.name,size:m.size,mime:m.mime};setStatus(`⬇️ Menerima <b>${esc(m.path||m.name)}</b>…`,'ok');$('sendInfo').textContent=`Menerima: ${m.path||m.name}`;return}if(m.type==='end'){const x=rx[m.id];if(!x)return;const blob=new Blob(x.parts,{type:x.mime});const item={name:x.name,path:x.path,size:blob.size,blob};received.push(item);delete rx[m.id];renderReceived();setStatus(`✅ Diterima: ${esc(x.path)}`,'ok')}}else{const keys=Object.keys(rx);if(keys.length)rx[keys[keys.length-1]].parts.push(ev.data)}}
-function renderReceived(){$('receivedList').innerHTML=received.map((x,i)=>`<div class="file"><div class="name"><div>📥 ${esc(x.path)}</div><div class="meta">${fmt(x.size)}</div></div><button class="btn secondary" onclick="saveReceived(${i})">Simpan</button></div>`).join('');$('saveAll').disabled=!received.length}
-window.saveReceived=async i=>{const x=received[i];if(saveDir){try{await writeIntoDir(saveDir,x.path,x.blob);setStatus(`✅ Disimpan: ${esc(x.path)}`,'ok');return}catch(e){}}downloadBlob(x.blob,x.path.split('/').pop())};
-async function writeIntoDir(root,path,blob){const parts=path.split('/').filter(Boolean);const filename=parts.pop();let dir=root;for(const p of parts)dir=await dir.getDirectoryHandle(p,{create:true});const fh=await dir.getFileHandle(filename,{create:true});const w=await fh.createWritable();await w.write(blob);await w.close()}
-function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
-$('chooseSaveDir').onclick=async()=>{if(!window.showDirectoryPicker){setStatus('Browser ini tidak mendukung memilih folder tujuan. File tetap bisa disimpan satu per satu.','warn');return}try{saveDir=await window.showDirectoryPicker({mode:'readwrite'});$('saveAll').disabled=!received.length;setStatus('Folder tujuan siap. Simpan Semua akan mempertahankan subfolder bila tersedia.','ok')}catch{setStatus('Pemilihan folder dibatalkan.','warn')}};
-$('saveAll').onclick=async()=>{if(!received.length)return;if(saveDir){for(const x of received)await writeIntoDir(saveDir,x.path,x.blob);setStatus(`✅ ${received.length} file disimpan ke folder tujuan.`,'ok')}else{for(const x of received)downloadBlob(x.blob,x.path.split('/').pop());setStatus(`✅ ${received.length} file siap diunduh.`,'ok')}};
-renderFiles();renderReceived();
+async function sendSelected(){if(!conn||!conn.open||!selected.length)return;setConnection(false);$('selectedBar').classList.remove('hidden');
+  for(let i=0;i<selected.length;i++){
+    const f=selected[i], path=safePath(f.webkitRelativePath||f._relativePath||f.name);
+    conn.send(JSON.stringify({t:'meta',name:f.name,path,size:f.size,mime:f.type||'application/octet-stream'}));
+    let offset=0, sent=0;
+    while(offset<f.size){while(conn.bufferedAmount>4*1024*1024) await new Promise(r=>setTimeout(r,20)); const blob=f.slice(offset,offset+CHUNK); const buf=await blob.arrayBuffer();conn.send(buf);offset+=buf.byteLength;sent+=buf.byteLength;const pct=Math.round(sent/f.size*100);$('sendBar').style.width=Math.round((i+(pct/100))/selected.length*100)+'%';$('sendText').textContent=`Mengirim ${i+1}/${selected.length} • ${f.name} • ${pct}%`}
+    conn.send(JSON.stringify({t:'end',path}));
+  }
+  conn.send(JSON.stringify({t:'done'}));$('sendText').textContent='✅ Semua file selesai dikirim.';setConnection(true);
+}
+
+function handleData(data){
+ if(typeof data==='string'){
+   try{const m=JSON.parse(data); if(m.t==='meta'){incoming={name:m.name,path:m.path,size:m.size,mime:m.mime||'application/octet-stream',chunks:[],received:0};renderIncomingProgress();}
+   else if(m.t==='end'){if(incoming){const blob=new Blob(incoming.chunks,{type:incoming.mime});received.push({name:incoming.name,path:incoming.path,size:incoming.size,blob});renderReceived();incoming=null;}}
+   else if(m.t==='done'){global('✅ File dari pengirim sudah selesai diterima.','ok');$('saveAllBtn').disabled=received.length===0;}
+   }catch(e){console.warn(e)}
+ }else if(data instanceof ArrayBuffer || data instanceof Blob){
+   if(!incoming)return;incoming.chunks.push(data);incoming.received+=data.byteLength||data.size||0;renderIncomingProgress();
+ }
+}
+
+function renderIncomingProgress(){
+ const el=$('receivedList');if(!incoming)return;let p=incoming.size?Math.min(100,incoming.received/incoming.size*100):0;
+ const existing=document.getElementById('incomingProgress');
+ if(existing){existing.querySelector('i').style.width=p+'%';existing.querySelector('.progressText').textContent=`${incoming.name} • ${Math.round(p)}%`;return}
+ const d=document.createElement('div');d.className='recv';d.id='incomingProgress';d.innerHTML=`<div class="ico">⬇️</div><div class="grow"><div class="name">${escapeHtml(incoming.name)}</div><div class="progressText">0%</div><div class="bar"><i></i></div></div>`;el.prepend(d);
+}
+function renderReceived(){
+ const list=$('receivedList');list.innerHTML='';received.forEach((f,idx)=>{const d=document.createElement('div');d.className='recv';d.innerHTML=`<div class="ico">📄</div><div class="grow"><div class="name">${escapeHtml(f.path)}</div><div class="meta">${formatBytes(f.size)}</div></div><button class="btn alt" data-i="${idx}">Simpan</button>`;d.querySelector('button').onclick=()=>saveOne(f);list.appendChild(d)});$('saveAllBtn').disabled=received.length===0;}
+
+async function saveOne(f){
+ if(saveDir){try{const parts=safePath(f.path).split('/');const filename=parts.pop();let dir=saveDir;for(const part of parts){dir=await dir.getDirectoryHandle(part,{create:true})}const h=await dir.getFileHandle(filename,{create:true});const w=await h.createWritable();await w.write(f.blob);await w.close();global('✅ '+escapeHtml(f.path)+' disimpan ke folder tujuan.','ok');return}catch(e){console.warn(e)}}
+ const a=document.createElement('a');a.href=URL.createObjectURL(f.blob);a.download=(f.path||f.name).split('/').pop();document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+$('saveDirBtn').onclick=async()=>{if(!window.showDirectoryPicker){global('Browser ini belum mendukung pemilihan folder tujuan otomatis. File tetap bisa disimpan satu per satu.','warn');return}try{saveDir=await window.showDirectoryPicker({mode:'readwrite'});global('✅ Folder tujuan dipilih.','ok')}catch{}};
+$('saveAllBtn').onclick=async()=>{for(const f of received)await saveOne(f)};
+
+function setSelected(files){selected=Array.from(files||[]).filter(f=>f&&typeof f.size==='number');renderSelected();setConnection(!!conn?.open);}
+function renderSelected(){const list=$('selectedList');list.innerHTML='';let total=0;selected.forEach((f,i)=>{total+=f.size;const path=safePath(f.webkitRelativePath||f._relativePath||f.name);const d=document.createElement('div');d.className='file';d.innerHTML=`<div class="ico">${f.type&&f.type.startsWith('image/')?'🖼️':'📄'}</div><div class="fname"><div class="name">${escapeHtml(path)}</div><div class="meta">${formatBytes(f.size)}</div></div>`;list.appendChild(d)});$('sendBtn').disabled=!conn?.open||selected.length===0;if(selected.length)$('sendText').textContent=`${selected.length} item • ${formatBytes(total)}`}
+$('folderBtn').onclick=()=>$('folderInput').click();$('filesBtn').onclick=()=>$('filesInput').click();$('folderInput').onchange=e=>setSelected(e.target.files);$('filesInput').onchange=e=>setSelected(e.target.files);$('sendBtn').onclick=sendSelected;$('clearBtn').onclick=()=>{selected=[];renderSelected();$('selectedBar').classList.add('hidden');$('folderInput').value='';$('filesInput').value=''};
+$('drop').onclick=()=>$('filesInput').click();$('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('drag')};$('drop').ondragleave=()=>$('drop').classList.remove('drag');$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('drag');const files=Array.from(e.dataTransfer.files);setSelected(files)};
+function escapeHtml(s){return String(s??'').replace(/[&<>"]+/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]||m))}
+
+// Lightweight QR scanner modal kept as optional fallback UI; primary pairing is the 5-digit code.
+$('closeModal').onclick=()=>{$('modal').classList.add('hidden');const v=$('video');if(v.srcObject)v.srcObject.getTracks().forEach(t=>t.stop());v.srcObject=null};
 </script>
-</body></html>
+</body>
+</html>
