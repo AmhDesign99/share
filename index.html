@@ -74,7 +74,7 @@ button,input{width:100%;border-radius:14px;border:1px solid var(--line);padding:
 </div>
 
 <script>
-const SIGNALING = 'wss://share.maunuyu100.workers.dev/ws'; // ganti dengan URL Worker kamu
+const SIGNALING_BASE = 'wss://share.maunuyu100.workers.dev/ws'; // Worker Cloudflare kamu
 let ws, role='', room='', pc=null, dc=null, pendingFiles=[];
 
 const $=id=>document.getElementById(id);
@@ -86,7 +86,8 @@ function sendSignal(msg){ if(ws && ws.readyState===1) ws.send(JSON.stringify({ro
 function openWS(){
   if(ws && ws.readyState<=1)return Promise.resolve();
   return new Promise((res,rej)=>{
-    ws=new WebSocket(SIGNALING);
+    const signalingUrl = `${SIGNALING_BASE}?room=${encodeURIComponent(room)}`;
+    ws=new WebSocket(signalingUrl);
     ws.onopen=()=>{setStatus('Terhubung ke signaling','');res()};
     ws.onerror=()=>rej(new Error('Signaling server tidak dapat dihubungi'));
     ws.onclose=()=>{ if(role && !dc) setStatus('Signaling terputus','bad') };
